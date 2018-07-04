@@ -31,46 +31,50 @@
   <section class="management-card">
     <div class="management-card-title border-bottom">大咖相册</div>
     <div class="management-card-content">
-      <ul class="clear">
-        <li class="left" v-if="form.picPath1">
-          <a :href="form.picPath1">
-            <img :src="form.picPath1" alt="img">
-          </a>
-        </li>
-        <li class="left" v-if="form.picPath2">
-          <a :href="form.picPath2">
-            <img :src="form.picPath2" alt="img">
-          </a>
-        </li>
-        <li class="left" v-if="form.picPath3">
-          <a :href="form.picPath3">
-            <img :src="form.picPath3" alt="img">
-          </a>
-        </li>
-      </ul>
+      <div class="management-card-content-main">
+        <ul class="clear">
+          <li class="left" v-if="form.picPath1">
+            <a :href="form.picPath1">
+              <img :src="form.picPath1" alt="img">
+            </a>
+          </li>
+          <li class="left" v-if="form.picPath2">
+            <a :href="form.picPath2">
+              <img :src="form.picPath2" alt="img">
+            </a>
+          </li>
+          <li class="left" v-if="form.picPath3">
+            <a :href="form.picPath3">
+              <img :src="form.picPath3" alt="img">
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <section class="management-card">
     <div class="management-card-title border-bottom">历史账户收益曲线</div>
     <div class="management-card-content">
-      <dl class="clear">
-        <dt class="left">
-          <a :href="form.picPath4">
-            <img :src="form.picPath4" alt="img" v-if="form.picPath4">
-          </a>
-        </dt>
-        <dt class="left">
-          <a :href="form.picPath5">
-            <img :src="form.picPath5" alt="img" v-if="form.picPath5">
-          </a>
-        </dt>
-        <dt class="left">
-          <a :href="form.picPath6">
-            <img :src="form.picPath6" alt="img" v-if="form.picPath6">
-          </a>
-        </dt>
-      </dl>
+      <div class="management-card-content-main">
+        <dl class="clear">
+          <dt class="left">
+            <a :href="form.picPath4">
+              <img :src="form.picPath4" alt="img" v-if="form.picPath4">
+            </a>
+          </dt>
+          <dt class="left">
+            <a :href="form.picPath5">
+              <img :src="form.picPath5" alt="img" v-if="form.picPath5">
+            </a>
+          </dt>
+          <dt class="left">
+            <a :href="form.picPath6">
+              <img :src="form.picPath6" alt="img" v-if="form.picPath6">
+            </a>
+          </dt>
+        </dl>
+      </div>
     </div>
   </section>
 </div>
@@ -191,33 +195,50 @@ export default {
     line-height: 2
     padding: 18px 20px 18px 0
     overflow-x: scroll
+    overflow-y: hidden
     letter-spacing: 0.05em
-    ul
-      min-width: 100%
-      width: 150%
+    .management-card-content-main
+      width: 100%
       height: 70px
+      white-space: nowrap
+      overflow: hidden
       overflow-x: scroll
-      li
-        margin-right: 20px
-        width: 100px
+      -webkit-backface-visibility: hidden
+      -webkit-perspective: 1000
+      -webkit-overflow-scrolling: touch
+      text-align: justify
+      ul
+        min-width: 100%
         height: 70px
-        background-color: #ccc
-        overflow: hidden
-        border-radius: 6px
-        img
-          width: 100%
-    dl
-      min-width: 100%
-      width: 150%
-      height: 70px
-      overflow-x: scroll
-      dt
-        margin-right: 20px
-        width: 170px
+        overflow-x: scroll
+        overflow-y: hidden
+        li
+          margin-right: 20px
+          width: 100px
+          height: 70px
+          background-color: #ccc
+          overflow: hidden
+          border-radius: 6px
+          a
+            width: 100%
+            height: 100%
+            display: black
+            img
+            width: 100%
+      dl
+        min-width: 100%
+        width: 150%
         height: 70px
-        background-color: #ccc
-        overflow: hidden
-        border-radius: 6px
-        img
-          width: 100%
+        overflow-x: scroll
+        overflow-y: hidden
+        dt
+          margin-right: 20px
+          width: 170px
+          height: 70px
+          background-color: #ccc
+          overflow: hidden
+          border-radius: 6px
+          img
+            width: 100%
+
 </style>

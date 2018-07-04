@@ -9,12 +9,12 @@
     <flex>
       <flex-item>
         <bb label="中文姓" :width="86">
-          <input type="text" style="width: 80px" placeholder="与身份证同" v-model="form.cnFirtName">
+          <input type="text" style="width: 80px" placeholder="与身份证同" v-model="form.cnFirtName" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')">
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="text" style="width: 110px" placeholder="与身份证同" v-model="form.cnLastName">
+          <input type="text" style="width: 100%" placeholder="与身份证同" v-model="form.cnLastName" onkeyup="value=value.replace(/[\d]/g,'') ">
         </bb>
       </flex-item>
     </flex>
@@ -22,18 +22,18 @@
     <flex>
       <flex-item>
         <bb label="英文姓" :width="86">
-          <input type="text" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName">
+          <input type="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="text" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName">
+          <input type="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
         </bb>
       </flex-item>
     </flex>
   
     <bb label="身份证号" :width="86">
-      <input type="text" style="width: 100px" placeholder="与身份证同" v-model="form.idNo">
+      <input type="number" style="width: 100%" placeholder="与身份证同" v-model="form.idNo"  v-model.number="msg" onkeyup="value=value.replace(/[^\d]/g,'')">
     </bb>
 
     <bb label="出生日期" :width="86">
@@ -58,7 +58,7 @@
 
     <bb label="手机号码" :width="86">{{ form.phone }}</bb>
     <bb label="邮箱" :width="86">
-      <input type="text" style="width: 250px" placeholder="输入邮箱地址" v-model="form.email">
+      <input type="text"  name="email" style="width: 100%" placeholder="输入邮箱地址" v-model="form.email" :id="isEmail">
     </bb>
     <bb label="所在地" :width="86">
       <flex>
@@ -74,10 +74,10 @@
       </flex>
     </bb>
     <bb label="" :width="86">
-      <input type="text" style="width: 240px" v-model="form.address" placeholder="输入详细地址（如所在街道门牌号）">
+      <input t type="text" style="width: 100%" v-model="form.address" placeholder="输入详细地址（如所在街道门牌号）">
     </bb>
     <bb label="邮编" :width="86">
-      <input type="text" style="width: 240px" v-model="form.zipCode" placeholder="输入邮编">
+      <input type="number" style="width: 240px" v-model="form.zipCode" v-model.number="code"  maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')">
     </bb>
     <div class="bt">
       <button @click="goNext()">下一步</button>
@@ -127,14 +127,14 @@
     </div>
 
     <div class="read">
-      <z-checkbox type="checkbox" v-model="agree">
+      <z-checkbox type="checkbox" v-model="agree" checkbox="">
         我已阅读并同意<a href="https://www.ifmtrade.com/cn/about-us/legal-note/">【IFM风险说明】</a>
       </z-checkbox>
     </div>
 
     <div class="bt">
-      <button v-if="loaing">提交中，请稍后</button>
-      <button @click="save()" v-else>确认并提交</button>
+      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="./loading.gif" alt="">提交中，请稍后</button>
+      <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
     </div>
   </div>
 </div>
@@ -148,6 +148,13 @@ export default {
   name: 'register',
   data() {
     return {
+      msg: true,
+      code: true,
+      isEmail: true,
+      loaing: false,
+      isDisbt: false,
+      isDisabled: false,
+      isImg: false,
       next: 0,
       bb: 0,
       zz: 0,
@@ -344,17 +351,18 @@ export default {
   methods: {
     save() {
       this.loaing = true
+      this.isImg = true
       const url = 'http://api.robinjf.com/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
-
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, formdata).then(response => {
         console.log(response.data)
-        this.loaing = false
+        this.loading = true
         this.$router.replace({ name: 'finish' })
       }).catch(res => {
-        this.loaing = false
+        this.isDisbt = true 
+        this.isDisabled = true
         window.alert(res)
       })
     },
@@ -404,6 +412,22 @@ export default {
         window.alert('请检查填写内容')
       }
     },
+    emailEnter() {
+      var validateEmail = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请正确填写邮箱'));
+      } else {
+        if (value !== '') { 
+          var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+          if(!reg.test(value)){
+            callback(new Error('请输入有效的邮箱'));
+          }
+        }
+        callback();
+      }
+      };
+    }
+
   },
 }
 </script>
@@ -439,4 +463,19 @@ export default {
   
   .bt
     padding: 0 20px
+    .loImg
+      background-color: #4a7cca
+      box-shadow: 0 2px 4px 0 #4a7cca
+      -webkit-box-shadow: 0 2px 4px 0 #4a7cca
+      img
+        width: 24px
+        height: 24px
+        display: inline-block
+        vertical-align: top
+        margin: 10px 10px 10px 0
+  .disbt
+     background-color: #5f647b
+     box-shadow: 0 2px 4px 0 #5f647b
+     -webkit-box-shadow: 0 2px 4px 0 #5f647b
+
 </style>
