@@ -131,10 +131,12 @@
         我已阅读并同意<a href="https://www.ifmtrade.com/cn/about-us/legal-note/">【IFM风险说明】</a>
       </z-checkbox>
     </div>
-
     <div class="bt">
       <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="./loading.gif" alt="">提交中，请稍后</button>
       <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
+    </div>
+    <div class="bt return">
+      <button @click="reback()">上一步</button>
     </div>
   </div>
 </div>
@@ -412,20 +414,8 @@ export default {
         window.alert('请检查填写内容')
       }
     },
-    emailEnter() {
-      var validateEmail = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请正确填写邮箱'));
-      } else {
-        if (value !== '') { 
-          var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-          if(!reg.test(value)){
-            callback(new Error('请输入有效的邮箱'));
-          }
-        }
-        callback();
-      }
-      };
+    reback() {
+      this.next = 0
     }
 
   },
@@ -460,9 +450,10 @@ export default {
     color: #666
     a
       color: #1B2B84
-  
+  .return
   .bt
     padding: 0 20px
+    margin: 0 0 20px
     .loImg
       background-color: #4a7cca
       box-shadow: 0 2px 4px 0 #4a7cca
@@ -477,5 +468,7 @@ export default {
      background-color: #5f647b
      box-shadow: 0 2px 4px 0 #5f647b
      -webkit-box-shadow: 0 2px 4px 0 #5f647b
+  
+
 
 </style>
