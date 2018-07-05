@@ -32,7 +32,7 @@
     <div class="management-card-title border-bottom">大咖相册</div>
     <div class="management-card-content">
       <div class="management-card-content-main">
-        <ul class="clear">
+        <ul>
           <li class="left" v-if="form.picPath1">
             <a :href="form.picPath1">
               <img :src="form.picPath1" alt="img">
@@ -48,6 +48,11 @@
               <img :src="form.picPath3" alt="img">
             </a>
           </li>
+          <li class="left" v-if="form.picPath4">
+            <a :href="form.picPath4">
+              <img :src="form.picPat4" alt="img">
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -58,17 +63,17 @@
     <div class="management-card-content">
       <div class="management-card-content-main">
         <dl class="clear">
-          <dt class="left">
+          <dt>
             <a :href="form.picPath4">
               <img :src="form.picPath4" alt="img" v-if="form.picPath4">
             </a>
           </dt>
-          <dt class="left">
+          <dt>
             <a :href="form.picPath5">
               <img :src="form.picPath5" alt="img" v-if="form.picPath5">
             </a>
           </dt>
-          <dt class="left">
+          <dt>
             <a :href="form.picPath6">
               <img :src="form.picPath6" alt="img" v-if="form.picPath6">
             </a>
@@ -103,7 +108,7 @@ export default {
     var body = document.getElementsByTagName('body')[0]
     document.title = '罗宾金服'
     var iframe = document.createElement("iframe")
-    iframe.style.display="none"
+    iframe.style.display="no"
     iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
     var d = function() {
       setTimeout(function() {
@@ -117,7 +122,7 @@ export default {
   },
   methods: {
     getDetail() {
-    const url = '/robin/public/bun/group/getGroupInfo'
+    const url = ' http://182.254.223.136:8887/group/getGroupInfo'
     const params = {
       groupUuid: this.$route.query.id,
     }
@@ -198,26 +203,28 @@ export default {
     overflow-y: hidden
     letter-spacing: 0.05em
     .management-card-content-main
-      width: 100%
+      position: relative
       height: 70px
-      white-space: nowrap
       overflow: hidden
-      overflow-x: scroll
-      -webkit-backface-visibility: hidden
-      -webkit-perspective: 1000
-      -webkit-overflow-scrolling: touch
-      text-align: justify
+      margin: 0 1px
       ul
-        min-width: 100%
         height: 70px
-        overflow-x: scroll
-        overflow-y: hidden
+        white-space: nowrap
+        font-size: 0
+        display: -webkit-box;
+        overflow-x: auto
+        -webkit-overflow-scrolling: touch
+        /*隐藏掉滚动条*/
+        ul::-webkit-scrollbar
+          display: none;
         li
-          margin-right: 20px
+          display: inline-block
+          vertical-align: top
+          font-size: 0
           width: 100px
           height: 70px
+          margin-right: 15px
           background-color: #ccc
-          overflow: hidden
           border-radius: 6px
           a
             width: 100%
@@ -226,18 +233,20 @@ export default {
             img
             width: 100%
       dl
-        min-width: 100%
-        width: 150%
-        height: 70px
-        overflow-x: scroll
-        overflow-y: hidden
+        white-space: nowrap
+        font-size: 0
+        display: -webkit-box;
+        overflow-x: auto
+        -webkit-overflow-scrolling: touch
         dt
-          margin-right: 20px
+          margin-right: 15px
           width: 170px
           height: 70px
           background-color: #ccc
-          overflow: hidden
           border-radius: 6px
+          display: inline-block
+          vertical-align: top
+          font-size: 0
           img
             width: 100%
 
