@@ -354,7 +354,7 @@ export default {
     save() {
       this.loaing = true
       this.isImg = true
-      const url = 'http://api.robinjf.com/User/openMt4Account'
+      const url = '/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'

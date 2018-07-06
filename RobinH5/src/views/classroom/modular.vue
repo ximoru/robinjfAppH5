@@ -35,7 +35,7 @@ export default {
 	},
 	methods: {
 		getDetail() {
-			const url = '/robin/public/bun/class/getClassInfo'
+			const url = 'Class/listPage'
 			const params = {
 				classUuid: this.$route.query.id,
 			}

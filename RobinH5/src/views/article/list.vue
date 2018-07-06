@@ -63,7 +63,7 @@ export default {
       }
     },
     getList() {
-      const url = '/robin/public/bun/class/getClassList'
+      const url = 'http://182.254.223.136:8887/class/getClassList'
       const params = {
         page: this.page,
         pagesize: this.pagesize,

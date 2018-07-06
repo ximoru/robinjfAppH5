@@ -33,25 +33,8 @@
     <div class="management-card-content">
       <div class="management-card-content-main">
         <ul>
-          <li class="left" v-if="form.picPath1">
-            <a :href="form.picPath1">
-              <img :src="form.picPath1" alt="img">
-            </a>
-          </li>
-          <li class="left" v-if="form.picPath2">
-            <a :href="form.picPath2">
-              <img :src="form.picPath2" alt="img">
-            </a>
-          </li>
-          <li class="left" v-if="form.picPath3">
-            <a :href="form.picPath3">
-              <img :src="form.picPath3" alt="img">
-            </a>
-          </li>
-          <li class="left" v-if="form.picPath4">
-            <a :href="form.picPath4">
-              <img :src="form.picPat4" alt="img">
-            </a>
+          <li class="" v-for="pics in picList" :key="pics.id">
+            <a href=""><img :src="pics.pic" alt="" >{{pics.name}}</a>
           </li>
         </ul>
       </div>
@@ -63,20 +46,8 @@
     <div class="management-card-content">
       <div class="management-card-content-main">
         <dl class="clear">
-          <dt>
-            <a :href="form.picPath4">
-              <img :src="form.picPath4" alt="img" v-if="form.picPath4">
-            </a>
-          </dt>
-          <dt>
-            <a :href="form.picPath5">
-              <img :src="form.picPath5" alt="img" v-if="form.picPath5">
-            </a>
-          </dt>
-          <dt>
-            <a :href="form.picPath6">
-              <img :src="form.picPath6" alt="img" v-if="form.picPath6">
-            </a>
+          <dt v-for="pics2 in pic2List" :key="pics2.id">
+            <a href=""><img :src="pics2.pic" alt="" >{{pics2.name}}</a>
           </dt>
         </dl>
       </div>
@@ -95,6 +66,8 @@ export default {
       form: {
         tag: '',
       },
+      picList: [],
+      pic2List: [],
     }
   },
   computed: {
@@ -122,14 +95,15 @@ export default {
   },
   methods: {
     getDetail() {
-    const url = ' http://182.254.223.136:8887/group/getGroupInfo'
+    const url = '/Group/getGroupByUuid'
     const params = {
       groupUuid: this.$route.query.id,
     }
-
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
         console.log(response.data)
+        this.picList = response.data.data.pic_result.pics_1;
+        this.pic2List = response.data.data.pic_result.pics_2;
         this.form = response.data.data
       })
     },
@@ -226,12 +200,16 @@ export default {
           margin-right: 15px
           background-color: #ccc
           border-radius: 6px
+          left: none
           a
             width: 100%
-            height: 100%
-            display: black
+            height: 70px
+            display: block
+            border-radius: 6px
+            overflow: hidden
             img
-            width: 100%
+              width: 100%
+
       dl
         white-space: nowrap
         font-size: 0
@@ -247,7 +225,13 @@ export default {
           display: inline-block
           vertical-align: top
           font-size: 0
-          img
+          a 
             width: 100%
+            height: 70px
+            display: block
+            border-radius: 6px
+            overflow: hidden
+            img
+              width: 100%
 
 </style>
