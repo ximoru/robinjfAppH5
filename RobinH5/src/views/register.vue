@@ -56,7 +56,7 @@
       <z-checkbox v-model="form.gender" :content="1">女</z-checkbox>
     </bb>
 
-    <bb label="手机号码" :width="86" class=""><div class="phone">{{ form.phone }}</div></bb>
+    <bb label="手机号码" :width="86" class="">{{form.phone}}</bb>
     <bb label="邮箱" :width="86">
       <input type="text"  name="email" style="width: 100%" placeholder="输入邮箱地址" v-model="form.email" :id="isEmail">
     </bb>
