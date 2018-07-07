@@ -32,21 +32,9 @@
     <div class="management-card-title border-bottom">大咖相册</div>
     <div class="management-card-content">
       <div class="management-card-content-main">
-        <ul class="clear">
-          <li class="left" v-if="form.picPath1">
-            <a :href="form.picPath1">
-              <img :src="form.picPath1" alt="img">
-            </a>
-          </li>
-          <li class="left" v-if="form.picPath2">
-            <a :href="form.picPath2">
-              <img :src="form.picPath2" alt="img">
-            </a>
-          </li>
-          <li class="left" v-if="form.picPath3">
-            <a :href="form.picPath3">
-              <img :src="form.picPath3" alt="img">
-            </a>
+        <ul>
+          <li class="" v-for="pics in picList" :key="pics.id">
+            <a href=""><img :src="pics.pic" alt="" >{{pics.name}}</a>
           </li>
         </ul>
       </div>
@@ -58,20 +46,8 @@
     <div class="management-card-content">
       <div class="management-card-content-main">
         <dl class="clear">
-          <dt class="left">
-            <a :href="form.picPath4">
-              <img :src="form.picPath4" alt="img" v-if="form.picPath4">
-            </a>
-          </dt>
-          <dt class="left">
-            <a :href="form.picPath5">
-              <img :src="form.picPath5" alt="img" v-if="form.picPath5">
-            </a>
-          </dt>
-          <dt class="left">
-            <a :href="form.picPath6">
-              <img :src="form.picPath6" alt="img" v-if="form.picPath6">
-            </a>
+          <dt v-for="pics2 in pic2List" :key="pics2.id">
+            <a href=""><img :src="pics2.pic" alt="" >{{pics2.name}}</a>
           </dt>
         </dl>
       </div>
@@ -90,6 +66,8 @@ export default {
       form: {
         tag: '',
       },
+      picList: [],
+      pic2List: [],
     }
   },
   computed: {
@@ -103,7 +81,7 @@ export default {
     var body = document.getElementsByTagName('body')[0]
     document.title = '罗宾金服'
     var iframe = document.createElement("iframe")
-    iframe.style.display="none"
+    iframe.style.display="no"
     iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
     var d = function() {
       setTimeout(function() {
@@ -117,14 +95,15 @@ export default {
   },
   methods: {
     getDetail() {
-    const url = '/robin/public/bun/group/getGroupInfo'
+    const url = '/Group/getGroupByUuid'
     const params = {
-      groupUuid: this.$route.query.id,
+      groupUuid: 'FB0C9F98624D418E958BD6513CF2AE36',
     }
-
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
         console.log(response.data)
+        this.picList = response.data.data.pic_result.pics_1;
+        this.pic2List = response.data.data.pic_result.pics_2;
         this.form = response.data.data
       })
     },
@@ -198,47 +177,61 @@ export default {
     overflow-y: hidden
     letter-spacing: 0.05em
     .management-card-content-main
-      width: 100%
+      position: relative
       height: 70px
-      white-space: nowrap
       overflow: hidden
-      overflow-x: scroll
-      -webkit-backface-visibility: hidden
-      -webkit-perspective: 1000
-      -webkit-overflow-scrolling: touch
-      text-align: justify
+      margin: 0 1px
       ul
-        min-width: 100%
         height: 70px
-        overflow-x: scroll
-        overflow-y: hidden
+        white-space: nowrap
+        font-size: 0
+        display: -webkit-box;
+        overflow-x: auto
+        -webkit-overflow-scrolling: touch
+        /*隐藏掉滚动条*/
+        ul::-webkit-scrollbar
+          display: none;
         li
-          margin-right: 20px
+          display: inline-block
+          vertical-align: top
+          font-size: 0
           width: 100px
           height: 70px
+          margin-right: 20px
           background-color: #ccc
-          overflow: hidden
           border-radius: 6px
+          left: none
           a
             width: 100%
-            height: 100%
-            display: black
+            height: 70px
+            display: block
+            border-radius: 6px
+            overflow: hidden
             img
-            width: 100%
+              width: 100%
+
       dl
-        min-width: 100%
-        width: 150%
-        height: 70px
-        overflow-x: scroll
-        overflow-y: hidden
+        white-space: nowrap
+        font-size: 0
+        display: -webkit-box;
+        overflow-x: auto
+        -webkit-overflow-scrolling: touch
         dt
           margin-right: 20px
           width: 170px
           height: 70px
           background-color: #ccc
-          overflow: hidden
           border-radius: 6px
-          img
+          display: inline-block
+          vertical-align: top
+          font-size: 0
+          a 
             width: 100%
+            height: 70px
+            display: block
+            border-radius: 6px
+            overflow: hidden
+            img
+              width: 100%
 
 </style>

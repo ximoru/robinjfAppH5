@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import axios from 'axios'
 import * as util from 'ct-util'
 import App from './App'
 import router from './router'
@@ -11,6 +12,8 @@ import bb from './components/bb'
 import zCheckbox from './components/z-checkbox'
 import flex from './components/flex'
 import flexItem from './components/flex-item'
+import {obj} from './urlconfig.js'
+axios.defaults.baseURL = obj.defaultsUrl;
 
 require('./sass/comm.sass')
 

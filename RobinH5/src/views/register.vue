@@ -56,7 +56,7 @@
       <z-checkbox v-model="form.gender" :content="1">女</z-checkbox>
     </bb>
 
-    <bb label="手机号码" :width="86">{{ form.phone }}</bb>
+    <bb label="手机号码" :width="86" class=""><div class="phone">{{ form.phone }}</div></bb>
     <bb label="邮箱" :width="86">
       <input type="text"  name="email" style="width: 100%" placeholder="输入邮箱地址" v-model="form.email" :id="isEmail">
     </bb>
@@ -73,8 +73,10 @@
         </flex-item>
       </flex>
     </bb>
-    <bb label="" :width="86">
-      <input t type="text" style="width: 100%" v-model="form.address" placeholder="输入详细地址（如所在街道门牌号）">
+    <bb label="详细地址" :width="86">
+      <!-- <div class="text">输入详细地址</div> -->
+      <div class="address" style="width: 100%" v-model="form.address" contenteditable="true"></div>
+     <!--  <textarea type="text" style="width: 100%"  autoHeight="true"  v-model="form.address" placeholder="输入详细地址（如所在街道门牌号）"></textarea> -->
     </bb>
     <bb label="邮编" :width="86">
       <input type="number" style="width: 240px" v-model="form.zipCode" v-model.number="code"  maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')">
@@ -131,10 +133,12 @@
         我已阅读并同意<a href="https://www.ifmtrade.com/cn/about-us/legal-note/">【IFM风险说明】</a>
       </z-checkbox>
     </div>
-
     <div class="bt">
       <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="./loading.gif" alt="">提交中，请稍后</button>
       <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
+    </div>
+    <div class="bt return">
+      <button @click="reback()">上一步</button>
     </div>
   </div>
 </div>
@@ -352,7 +356,7 @@ export default {
     save() {
       this.loaing = true
       this.isImg = true
-      const url = 'http://api.robinjf.com/User/openMt4Account'
+      const url = '/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
@@ -412,20 +416,8 @@ export default {
         window.alert('请检查填写内容')
       }
     },
-    emailEnter() {
-      var validateEmail = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请正确填写邮箱'));
-      } else {
-        if (value !== '') { 
-          var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-          if(!reg.test(value)){
-            callback(new Error('请输入有效的邮箱'));
-          }
-        }
-        callback();
-      }
-      };
+    reback() {
+      this.next = 0
     }
 
   },
@@ -440,6 +432,28 @@ export default {
   height: 100%
   min-height: 100%
   background-color: #fff
+  .bb
+    .c
+      .text
+        position: absolute
+        left: 20px
+        top: 0
+      .address
+        resize: none
+        padding: 20px 15px 20px 0
+        line-height: 20px
+        border: none
+        min-height: 30px 
+        max-height: 100px
+        _height: 30px
+        outline: 0
+        word-wrap: break-word
+        overflow-x: hidden
+        overflow-y: auto
+        _overflow-y: visible
+        position: relative
+      .phone
+         height: 60px
   .register-title
     dl
       font-size: 14px
@@ -460,9 +474,10 @@ export default {
     color: #666
     a
       color: #1B2B84
-  
+  .return
   .bt
-    padding: 0 20px
+    padding: 20px
+    background-color: #fff
     .loImg
       background-color: #4a7cca
       box-shadow: 0 2px 4px 0 #4a7cca
@@ -477,5 +492,7 @@ export default {
      background-color: #5f647b
      box-shadow: 0 2px 4px 0 #5f647b
      -webkit-box-shadow: 0 2px 4px 0 #5f647b
+  
+
 
 </style>
