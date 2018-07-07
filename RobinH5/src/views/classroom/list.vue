@@ -47,7 +47,7 @@
       <router-link class="classroom-list-item border-bottom"
         v-for="item in list"
         :key="item.uuid"
-        :to="{ name: 'classroomModular', query: { id: item.uuid } }"
+        :to="{ name: 'classroomModular', query: { id: item.classUuid } }"
       >
         <p>{{ item.className }}</p>
         <dl>
@@ -99,12 +99,11 @@ export default {
       }
     },
     getList() {
-      const url = '/robin/public/bun/class/getClassList'
+      const url = '/Class/listPage'
       this.classTypeUuid = this.$route.query.id || 1
       const params = {
         page: this.page,
         pagesize: this.pagesize,
-        showPosition: 2,
         classTypeUuid: 5,
       }
 
@@ -112,6 +111,7 @@ export default {
       axios.post(url, {}, { params }).then(response => {
         console.log(response.data)
         const results = response.data
+        console.log(results)
         this.list = [...this.list, ...results.data]
         this.page += 1
       })

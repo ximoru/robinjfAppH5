@@ -3,8 +3,8 @@
     <section class="classroom-list" style="margin-top: 10px;">
       <router-link class="classroom-list-item border-bottom"
         v-for="item in list"
-        :key="item.uuid"
-        :to="{ name: 'classroomModular', query: { id: item.uuid } }"
+        :key="item.classUuid"
+        :to="{ name: 'classroomModular', query: { id: item.classUuid } }"
       >
         <p>{{ item.className }}</p>
         <dl>
@@ -25,11 +25,11 @@ export default {
       list: [],
       page: 0,
       pagesize: 12,
-      classTypeUuid: 1,
+      classUuid: 1,
     }
   },
   created() {
-    this.classTypeUuid = this.$route.query.id || 1
+    this.classUuid = this.$route.query.id || 1
     var body = document.getElementsByTagName('body')[0]
     document.title = this.title
     var iframe = document.createElement("iframe")
@@ -63,12 +63,12 @@ export default {
       }
     },
     getList() {
-      const url = 'http://182.254.223.136:8887/class/getClassList'
+      const url = '/Class/listPage'
       const params = {
         page: this.page,
         pagesize: this.pagesize,
         showPosition: 2,
-        classTypeUuid: this.classTypeUuid,
+        classTypeUuid: this.classUuid,
       }
 
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'

@@ -22,6 +22,7 @@ section.bb
   line-height: 60px
   font-size: 14px
   position: relative
+  background: #fff
   .t
     width: 100px
     color: #333
@@ -29,6 +30,7 @@ section.bb
     left: 0
     top: 0
     padding-left: 20px
+    height: 60px
   .c
     width: 100%
     input

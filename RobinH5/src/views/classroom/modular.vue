@@ -35,7 +35,7 @@ export default {
 	},
 	methods: {
 		getDetail() {
-			const url = 'Class/listPage'
+			const url = '/Class/detail'
 			const params = {
 				classUuid: this.$route.query.id,
 			}

@@ -97,7 +97,7 @@ export default {
     getDetail() {
     const url = '/Group/getGroupByUuid'
     const params = {
-      groupUuid: this.$route.query.id,
+      groupUuid: 'FB0C9F98624D418E958BD6513CF2AE36',
     }
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
@@ -197,7 +197,7 @@ export default {
           font-size: 0
           width: 100px
           height: 70px
-          margin-right: 15px
+          margin-right: 20px
           background-color: #ccc
           border-radius: 6px
           left: none
@@ -217,7 +217,7 @@ export default {
         overflow-x: auto
         -webkit-overflow-scrolling: touch
         dt
-          margin-right: 15px
+          margin-right: 20px
           width: 170px
           height: 70px
           background-color: #ccc
