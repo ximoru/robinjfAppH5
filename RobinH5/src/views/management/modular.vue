@@ -17,7 +17,6 @@
       </div>
     </div>
   </section>
-
   <section class="management-card">
     <div class="management-card-title border-bottom">投资理念</div>
     <div class="management-card-content">{{ form.concept }}</div>
@@ -34,7 +33,7 @@
       <div class="management-card-content-main">
         <ul>
           <li class="" v-for="pics in picList" :key="pics.id">
-            <a href=""><img :src="pics.pic" alt="" >{{pics.name}}</a>
+            <a :href="pics.pic"><img :src="pics.pic" alt="" >{{pics.name}}</a>
           </li>
         </ul>
       </div>
@@ -47,7 +46,7 @@
       <div class="management-card-content-main">
         <dl class="clear">
           <dt v-for="pics2 in pic2List" :key="pics2.id">
-            <a href=""><img :src="pics2.pic" alt="" >{{pics2.name}}</a>
+            <a :href="pics2.pic"><img :src="pics2.pic" alt="" >{{pics2.name}}</a>
           </dt>
         </dl>
       </div>
@@ -97,7 +96,7 @@ export default {
     getDetail() {
     const url = '/Group/getGroupByUuid'
     const params = {
-      groupUuid: 'FB0C9F98624D418E958BD6513CF2AE36',
+      groupUuid: this.$route.query.id,
     }
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
@@ -173,8 +172,6 @@ export default {
     color: #333
     line-height: 2
     padding: 18px 20px 18px 0
-    overflow-x: scroll
-    overflow-y: hidden
     letter-spacing: 0.05em
     .management-card-content-main
       position: relative
