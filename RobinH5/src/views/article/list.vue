@@ -29,7 +29,7 @@ export default {
     }
   },
   created() {
-    this.classUuid = this.$route.query.id || 1
+    this.classTypeUuid = this.$route.query.id || 1
     var body = document.getElementsByTagName('body')[0]
     document.title = this.title
     var iframe = document.createElement("iframe")
@@ -68,7 +68,7 @@ export default {
         page: this.page,
         pagesize: this.pagesize,
         showPosition: 2,
-        classTypeUuid: this.classUuid,
+        classTypeUuid: this.classTypeUuid,
       }
 
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
