@@ -2,7 +2,7 @@
   <div class="z-zzz">
     <h1>注册有大礼　IPhone X带回家</h1>
     <h2>拼实力不过瘾 拼人品才刺激</h2>
-    <p>Robin FIN注册有奖活动，每天抽取一台IPhoneX，注册就有机会拿！</p>
+    <p>Robin Fin注册有奖活动，每天抽取一台IPhoneX，注册就有机会拿！</p>
     <img src="../assets/pic_award.png" alt="pic_award.png">
     <h2>抽奖时间：2018年5月20日--5月31日</h2>
     <h2>活动详情</h2>

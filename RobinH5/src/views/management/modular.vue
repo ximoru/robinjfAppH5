@@ -17,16 +17,31 @@
       </div>
     </div>
   </section>
-  <section class="management-card">
-    <div class="management-card-title border-bottom">投资理念</div>
-    <div class="management-card-content">{{ form.concept }}</div>
+  <section class="management-content">
+    <div class="management-content-tab">
+       <ul>
+         <li v-for="(item ,index) in tabs" :class="{active:index == num}" @click="tab(index)" data-content="">{{item}}</li>
+       </ul>
+       <div class="management-tabMain">
+        <div class="management-card" v-for="(itemCon, index) in arr" v-show="currentNum(index)">
+          <div class="management-card-content">{{itemCon}}</div>
+        </div>
+      </div>
+    </div>
   </section>
-
   <section class="management-card">
-    <div class="management-card-title border-bottom">大咖介绍</div>
-    <div class="management-card-content">{{ form.memo }}</div>
+   <div class="management-card-title border-bottom">该大咖操作的相关信号源</div>
+   <div class="management-card-content">
+     <div class="management-card-content-main management-card-content-pic">
+       <ul>
+         <li class="" v-for="pics3 in pic3List" :key="pics3.uuid">
+           <a :href="pics3.bunmtAvatarpath"><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
+           <p>{{pics3.bunmtGroupName}}</p>
+         </li>
+       </ul>
+     </div>
+   </div>
   </section>
-
   <section class="management-card">
     <div class="management-card-title border-bottom">大咖相册</div>
     <div class="management-card-content">
@@ -39,14 +54,15 @@
       </div>
     </div>
   </section>
-
   <section class="management-card">
     <div class="management-card-title border-bottom">历史账户收益曲线</div>
     <div class="management-card-content">
       <div class="management-card-content-main">
         <dl class="clear">
           <dt v-for="pics2 in pic2List" :key="pics2.id">
-            <a :href="pics2.pic"><img :src="pics2.pic" alt="" >{{pics2.name}}</a>
+            <a :href="pics2.pic">
+                <img :src="pics2.pic" alt="" >{{pics2.name}}
+            </a>
           </dt>
         </dl>
       </div>
@@ -65,8 +81,12 @@ export default {
       form: {
         tag: '',
       },
+      arr: [],
       picList: [],
       pic2List: [],
+      pic3List: [],
+      tabs: ["投资理念", "罗宾点评" ,"大咖介绍"],
+      num: 0
     }
   },
   computed: {
@@ -78,10 +98,9 @@ export default {
   },
   mounted() {
     var body = document.getElementsByTagName('body')[0]
-    document.title = '罗宾金服'
+    document.title = 'Robin Fin'
     var iframe = document.createElement("iframe")
     iframe.style.display="no"
-    iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
     var d = function() {
       setTimeout(function() {
         iframe.removeEventListener('load', d)
@@ -91,6 +110,7 @@ export default {
     iframe.addEventListener('load', d)
     document.body.appendChild(iframe)
     this.getDetail()
+
   },
   methods: {
     getDetail() {
@@ -103,9 +123,21 @@ export default {
         console.log(response.data)
         this.picList = response.data.data.pic_result.pics_1;
         this.pic2List = response.data.data.pic_result.pics_2;
-        this.form = response.data.data
+        this.pic3List = response.data.data.masterList;
+        console.log(this.pic3List)
+        this.form = response.data.data;
+        this.arr.push(response.data.data.concept); //投资理念
+        this.arr.push(response.data.data.comment) //罗宾点评
+        this.arr.push(response.data.data.memo) //大咖介绍
       })
     },
+    currentNum(index) {
+      return this.num == index;
+    },
+    tab(index) {
+      this.num = index;
+    }
+
   },
 }
 </script>
@@ -115,7 +147,6 @@ export default {
   background-color: rgb(67, 47, 31)
   background-image: url(http://ofotg48ff.bkt.clouddn.com/banner_bg.png)
   background-size: 100%
-  margin-bottom: 14px
   color: #fff
   padding-top: 12px
   .management-modular-icon
@@ -160,10 +191,40 @@ export default {
         padding:
           left: 10px
         background-image: url(./f.png)
+.management-content 
+  .management-content-tab
+    ul
+      margin-bottom: 2px
+      background-color: #fff
+      font-size: 0
+      text-align: center
+    .active
+      color: Rgba(187 165 112)
+      border-bottom: 2px solid Rgba(187 165 112)
+      position: relative
+      .active:before
+        width: 64px
+        height: 2px;
+        background-color: Rgba(187 165 112)
+        position: absolute
+        bottom: -2px
+        left: 0
+        right: 0
+    li
+      font-size: 16px;
+      line-height: 22px
+      width: 33.3%
+      display: inline-block
+      vertical-align: top
+      padding: 10px 0
+      color:Rgba(51 51 51)
+  .management-tabMain
+    .management-card
+      padding: 0 20px
 .management-card
   background-color: #fff
-  padding-left: 20px
-  margin-bottom: 14px
+  padding: 0 20px
+  margin-bottom: 12px
   .management-card-title
     font-size: 17px
     font-weight: bold
@@ -171,13 +232,11 @@ export default {
   .management-card-content
     color: #333
     line-height: 2
-    padding: 18px 20px 18px 0
+    padding: 18px 0
     letter-spacing: 0.05em
     .management-card-content-main
       position: relative
-      height: 70px
       overflow: hidden
-      margin: 0 1px
       ul
         height: 70px
         white-space: nowrap
@@ -192,9 +251,9 @@ export default {
           display: inline-block
           vertical-align: top
           font-size: 0
-          width: 100px
+          width: 105px
           height: 70px
-          margin-right: 20px
+          margin-right: 10px
           background-color: #ccc
           border-radius: 6px
           left: none
@@ -230,5 +289,31 @@ export default {
             overflow: hidden
             img
               width: 100%
-
+    .management-card-content-pic
+      overflow: hidden
+      ul
+        height: auto
+        margin-left: -10px
+        padding: 10px 0
+        li
+          overflow: hidden
+          background-color: #fff
+          border-right: 1px solid Rgba( 215 211 216)
+          border-radius: 0
+          margin-right: 0
+          width: 90px
+          height: auto
+          p
+            line-height: 22px
+            padding-top: 10px
+            text-align: center
+            color: Rgba(74 74 74)
+            font-size: 16px
+            white-space: normal
+          a
+            width: 50px
+            height: 50px
+            border-radius: 50%
+            display: block
+            margin: auto
 </style>
