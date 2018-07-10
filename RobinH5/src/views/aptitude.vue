@@ -2,7 +2,7 @@
   <div class="z-zzz">
     <h1>优质经纪商保驾护航</h1>
     <p>
-      &emsp;&emsp;<b>IFM Trade</b>是目前中国<span>唯一</span>一家可溯源账户信息的经纪商，<b>罗宾金服</b>已与IFM Trade达成战略合作协议，IFM Trade有以下机制： 
+      &emsp;&emsp;<b>IFM Trade</b>是目前中国<span>唯一</span>一家可溯源账户信息的经纪商，<b>Robin Fin</b>已与IFM Trade达成战略合作协议，IFM Trade有以下机制： 
     </p>
     <img src="../assets/pic_cooperation.png" alt="pic_cooperation.png">
     <h2>1、资金完全隔离托管</h2>

@@ -19,7 +19,7 @@ export default {
 	},
 	mounted() {
 		var body = document.getElementsByTagName('body')[0]
-		document.title = '罗宾金服'
+		document.title = 'Robin Fin'
 		var iframe = document.createElement("iframe")
 		iframe.style.display="none"
 		iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")

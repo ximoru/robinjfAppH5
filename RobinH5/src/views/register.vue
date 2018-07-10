@@ -9,12 +9,12 @@
     <flex>
       <flex-item>
         <bb label="中文姓" :width="86">
-          <input type="text" style="width: 80px" placeholder="与身份证同" v-model="form.cnFirtName" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')">
+          <input type="text" style="width: 80px" placeholder="与身份证同" maxlength="5" v-model="form.cnFirtName" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')">
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="text" style="width: 100%" placeholder="与身份证同" v-model="form.cnLastName" onkeyup="value=value.replace(/[\d]/g,'') ">
+          <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="8" v-model="form.cnLastName" onkeyup="value=value.replace(/[\d]/g,'') ">
         </bb>
       </flex-item>
     </flex>
@@ -22,18 +22,18 @@
     <flex>
       <flex-item>
         <bb label="英文姓" :width="86">
-          <input type="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
         </bb>
       </flex-item>
     </flex>
   
     <bb label="身份证号" :width="86">
-      <input type="number" style="width: 100%" placeholder="与身份证同" v-model="form.idNo"  v-model.number="msg" onkeyup="value=value.replace(/[^\d]/g,'')">
+      <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo">
     </bb>
 
     <bb label="出生日期" :width="86">
@@ -58,7 +58,7 @@
 
     <bb label="手机号码" :width="86" class=""><div class="phone">{{ form.phone }}</div></bb>
     <bb label="邮箱" :width="86">
-      <input type="text"  name="email" style="width: 100%" placeholder="输入邮箱地址" v-model="form.email" :id="isEmail">
+      <input type="text" name="email" style="width: 100%" placeholder="输入邮箱地址" v-model="form.email" :id="isEmail">
     </bb>
     <bb label="所在地" :width="86">
       <flex>
@@ -77,7 +77,7 @@
       <input type="text"  style="width: 100%" v-model="form.address" placeholder=" " class="site">
     </bb>
     <bb label="邮编" :width="86">
-      <input type="number" style="width: 240px" v-model="form.zipCode" v-model.number="code"  maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')">
+      <input type="text" style="width: 240px" v-model="form.zipCode"  maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')">
     </bb>
     <div class="bt">
       <button @click="goNext()">下一步</button>
@@ -151,8 +151,6 @@ export default {
   data() {
     return {
       isSite: true,
-      msg: true,
-      code: true,
       isEmail: true,
       loaing: false,
       isDisbt: false,
@@ -406,9 +404,10 @@ export default {
         address &&
         zipCode
       ) {
-        if (gender === '' || gender === void 0) {
+        if (gender === '' || gender === void 0 ) {
           window.alert('请检查填写内容')
-        } else {
+        }
+        else {
           this.next = 1
         }
       } else {
