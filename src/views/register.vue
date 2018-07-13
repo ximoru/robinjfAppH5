@@ -358,12 +358,19 @@ export default {
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, formdata).then(response => {
-        this.loading = true
+        let data = response.data
         this.isDisbt = true 
         this.isDisabled = true
-        this.$router.replace({ name: 'finish' })
+        if (data.is_succ == true) {
+          this.loading = false
+          alert(data.error_msg)
+          this.$router.replace({ name: 'finish' })
+        }else{
+          alert(data.error_msg)
+          this.loading = false
+          this.next = 0
+        }
       }).catch(res => {
-        this.loaing = false
         window.alert(res)
       })
     },

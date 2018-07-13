@@ -2,12 +2,8 @@
   <div class="warp">
     <section class="classroom-header clear">
       <div class="classroom-header-mian flex">
-        <router-link v-for="(item, index) in items"  :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-item left">
-            <!-- <img v-bind:src="itemsImgindex.url" alt="img">  -->
-            <img v-if="index == 0" src="./1.png" alt="">
-            <img v-else-if="index == 1" src="./2.png" alt="">
-            <img v-else-if="index == 2" src="./3.png" alt="">
-            <img v-else-if="index == 3" src="./4.png" alt="">
+        <router-link v-for="(item, index) in items"  :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-item  flex-cols">
+            <img :src="item.src" alt="">
             <p>{{item.typename}}</p>
         </router-link>
       </div>
@@ -58,16 +54,16 @@ export default {
       items: [],
       itemsImg:[
         {
-          url: './1.png',
+          url: './static/1.png',
         },
         {
-          url: './2.png',
+          url: './static/2.png',
         },
         {
-          url: './3.png',
+          url: './static/3.png',
         },
         {
-          url: './4.png',
+          url: './static/4.png',
         }
       ]
     }
@@ -98,16 +94,21 @@ export default {
         })
       }
     },
-    /**/
+    /*文章title接口*/
     getTypeList() {
       const url = '/Class/getClassTypeList';   
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
       axios.post(url).then(response => {
         this.items = response.data.data
+        for (let i =0, len = this.items.length; i<len; i++){
+           this.items[i].src = this.itemsImg[i].url;
+        }
         this.classTypeUuid = response.data.data[0].uuid;
+
       });
 
     },
+    /*全部文章接口*/
     getList() {
       const url = '/Class/listPage'
       this.classTypeUuid = this.$route.query.id || 1
@@ -123,7 +124,6 @@ export default {
         this.page += 1
       })
     },
-
   },
   beforeDestroy() {
     document.onscroll = null
@@ -150,8 +150,6 @@ export default {
       width: 25%
       text-align: center
       padding: 16px 0
-      display: inline-block
-      vertical-align: top
       img
         width: 30%
         margin-bottom: 5px

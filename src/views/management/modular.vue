@@ -20,7 +20,7 @@
   <section class="management-content">
     <div class="management-content-tab">
        <ul>
-         <li v-for="(item ,index) in tabs" :class="{active:index == num}" @click="index == num,tab(index)">{{item}}</li>
+         <li v-for="(item ,index) in tabs" :class="{current:index == num}" @click="index == num,tab(index)">{{item}}</li>
        </ul>
        <div class="management-tabMain">
         <div class="management-card" v-for="(itemCon, index) in arr" v-show="currentNum(index)">
@@ -208,9 +208,9 @@ export default {
       background-color: #fff
       font-size: 0
       text-align: center
-      .active 
+      .current 
         color: Rgba(187 165 112)
-      .active::before
+      .current::before
         content: ''
         width: 50%
         height: 3px;
