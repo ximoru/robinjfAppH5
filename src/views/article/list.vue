@@ -34,7 +34,6 @@ export default {
     document.title = this.title
     var iframe = document.createElement("iframe")
     iframe.style.display="none"
-    iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
     var d = function() {
       setTimeout(function() {
         iframe.removeEventListener('load', d)
@@ -73,7 +72,6 @@ export default {
 
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
-        console.log(response.data)
         const results = response.data
         this.list = [...this.list, ...results.data]
         this.page += 1

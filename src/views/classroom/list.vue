@@ -1,31 +1,16 @@
 <template>
   <div class="warp">
     <section class="classroom-header clear">
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 1 } }"
-      >
-        <img src="./1.png" alt="img">
-        <p>基础知识</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 2 } }"
-      >
-        <img src="./2.png" alt="img">
-        <p>风险提示</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 3 } }"
-      >
-        <img src="./3.png" alt="img">
-        <p>新手教程</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 4 } }"
-      >
-        <img src="./4.png" alt="img">
-        <p>大咖观点</p>
-      </router-link>
-
+      <div class="classroom-header-mian flex">
+        <router-link v-for="(item, index) in items"  :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-item left">
+            <!-- <img v-bind:src="itemsImgindex.url" alt="img">  -->
+            <img v-if="index == 0" src="./1.png" alt="">
+            <img v-else-if="index == 1" src="./2.png" alt="">
+            <img v-else-if="index == 2" src="./3.png" alt="">
+            <img v-else-if="index == 3" src="./4.png" alt="">
+            <p>{{item.typename}}</p>
+        </router-link>
+      </div>
       <div class="classroom-header-line-warp clear">
         <router-link class="classroom-header-line left border-right"
           :to="{ name: 'articleList', query: { id: 1 } }"
@@ -44,13 +29,13 @@
 
     <section class="classroom-list">
       <div class="classroom-list-header">全部文章</div>
-      <router-link class="classroom-list-item border-bottom"
+      <router-link class="classroom-list-item border-bottom flex"
         v-for="item in list"
         :key="item.uuid"
         :to="{ name: 'classroomModular', query: { id: item.classUuid } }"
       >
         <p>{{ item.className }}</p>
-        <dl>
+        <dl class="flex-cols">
           <img :src="item.picPath" alt="pic">
         </dl>
       </router-link>
@@ -69,12 +54,28 @@ export default {
       list: [],
       page: 0,
       pagesize: 12,
-      classTypeUuid: 1,
+      classTypeUuid: 0,
+      items: [],
+      itemsImg:[
+        {
+          url: './1.png',
+        },
+        {
+          url: './2.png',
+        },
+        {
+          url: './3.png',
+        },
+        {
+          url: './4.png',
+        }
+      ]
     }
   },
   mounted() {
     this.init()
     this.getList()
+    this.getTypeList()
   },
   methods: {
     init() {
@@ -82,7 +83,6 @@ export default {
       document.title = 'Robin Fin'
       var iframe = document.createElement("iframe")
       iframe.style.display="none"
-      iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
       var d = function() {
         setTimeout(function() {
           iframe.removeEventListener('load', d)
@@ -98,24 +98,32 @@ export default {
         })
       }
     },
+    /**/
+    getTypeList() {
+      const url = '/Class/getClassTypeList';   
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+      axios.post(url).then(response => {
+        this.items = response.data.data
+        this.classTypeUuid = response.data.data[0].uuid;
+      });
+
+    },
     getList() {
       const url = '/Class/listPage'
       this.classTypeUuid = this.$route.query.id || 1
       const params = {
         page: this.page,
         pagesize: this.pagesize,
-        classTypeUuid: 5,
+        classTypeUuid: '',
       }
-
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
-        console.log(response.data)
         const results = response.data
-        console.log(results)
         this.list = [...this.list, ...results.data]
         this.page += 1
       })
     },
+
   },
   beforeDestroy() {
     document.onscroll = null
@@ -128,17 +136,28 @@ export default {
   position: relative
   background-color: #fff
   margin-top: 10px
-  .classroom-header-item
+  overflow: hidden
+  .classroom-header-mian
+    white-space: nowrap;
     height: 90px
-    width: 25%
-    text-align: center
-    padding: 16px 0
-    display: block
-    img
-      width: 30%
-      margin-bottom: 5px
-    p
-      margin-top: 3px
+    overflow-x: auto
+    font-size: 0
+    -webkit-overflow-scrolling: touch
+    ul::-webkit-scrollbar
+      display: none
+    .classroom-header-item
+      height: 90px
+      width: 25%
+      text-align: center
+      padding: 16px 0
+      display: inline-block
+      vertical-align: top
+      img
+        width: 30%
+        margin-bottom: 5px
+      p
+        margin-top: 3px
+        font-size: 14px
   .classroom-header-line-warp
     width: 100%
     position: absolute
@@ -172,7 +191,7 @@ export default {
       line-height: 1.2
       padding:
         left: 20px
-        right: 100px
+        right: 110px
       height: 100%
     dl
       height: 50px

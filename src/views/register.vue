@@ -358,12 +358,12 @@ export default {
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, formdata).then(response => {
-        console.log(response.data)
         this.loading = true
-        this.$router.replace({ name: 'finish' })
-      }).catch(res => {
         this.isDisbt = true 
         this.isDisabled = true
+        this.$router.replace({ name: 'finish' })
+      }).catch(res => {
+        this.loaing = false
         window.alert(res)
       })
     },
@@ -460,7 +460,7 @@ export default {
       color: #1B2B84
   .return
   .bt
-    padding: 0 20px 20px 20px 
+    padding: 10px 20px 10px 20px 
     background-color: #fff
     .loImg
       background-color: #4a7cca
