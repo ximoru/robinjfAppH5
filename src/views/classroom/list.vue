@@ -150,6 +150,8 @@ export default {
       width: 25%
       text-align: center
       padding: 16px 0
+      // display: inline-block
+      // vertical-align: top
       img
         width: 30%
         margin-bottom: 5px

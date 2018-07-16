@@ -33,7 +33,7 @@
     </flex>
   
     <bb label="身份证号" :width="86">
-      <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo">
+      <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo" >
     </bb>
 
     <bb label="出生日期" :width="86">
@@ -295,7 +295,7 @@ export default {
     }
   },
   created() {
-    console.log(d)
+    // console.log(d)
     this.form.phone = this.$route.query.phone
     for (let year = 1950; year < 2019; year++) {
       this.yList.push({
@@ -357,7 +357,12 @@ export default {
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      axios.post(url, formdata).then(response => {
+      let axiosConfig = {
+        validateStatus: function (status) {
+          return status >= 200 && status <= 300; // default
+        },
+      };
+      axios.post(url, formdata, axiosConfig).then(response => {
         let data = response.data
         this.isDisbt = true 
         this.isDisabled = true
@@ -374,7 +379,9 @@ export default {
         window.alert(res)
       })
     },
-    goNext() {
+    goNext() { 
+      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -393,7 +400,6 @@ export default {
         address,
         zipCode,
       } = this.form
-
       if (
         cnFirtName &&
         cnLastName &&
@@ -409,10 +415,18 @@ export default {
         state &&
         city &&
         address &&
-        zipCode
+        zipCode 
       ) {
-        if (gender === '' || gender === void 0 ) {
-          window.alert('请检查填写内容')
+        if (!reg.test(idNo)) {
+          window.alert('请输入正确的身份证号')
+          return false;
+        }
+        if (!em.test(email)) {
+          window.alert('请输入正确的邮箱地址')
+          return false;
+        }
+        if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
+          window.alert('请检查填写内容是否正确')
         }
         else {
           this.next = 1
@@ -421,6 +435,7 @@ export default {
         window.alert('请检查填写内容')
       }
     },
+
     reback() {
       this.next = 0
     }

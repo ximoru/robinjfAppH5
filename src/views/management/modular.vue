@@ -20,7 +20,7 @@
   <section class="management-content">
     <div class="management-content-tab">
        <ul>
-         <li v-for="(item ,index) in tabs" :class="{current:index == num}" @click="index == num,tab(index)">{{item}}</li>
+         <li v-for="(item ,index) in tabs" :class="{current:num == index}" @click="index == num,tab(index)">{{item}}</li>
        </ul>
        <div class="management-tabMain">
         <div class="management-card" v-for="(itemCon, index) in arr" v-show="currentNum(index)">
@@ -34,7 +34,7 @@
    <div class="management-card-content">
      <div class="management-card-content-main management-card-content-pic">
        <ul>
-         <li @click="getStings()" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
+         <li @click="goPage()" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
            <a ><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
            <p>{{pics3.bunmtUsername}}</p>
          </li>
@@ -87,6 +87,7 @@ export default {
       pic3List: [],
       tabs: ["投资理念", "罗宾点评" ,"大咖介绍"],
       num: 0,
+      cur: true
     }
   },
   computed: {
@@ -110,15 +111,20 @@ export default {
     iframe.addEventListener('load', d)
     document.body.appendChild(iframe)
     this.getDetail()
-
   },
   methods: {
+    currentNum(index) {
+      return this.num == index;
+    },
+    tab(index) {
+      this.num = index;
+    },
     getDetail() {
-    const url = '/Group/getGroupByUuid'
-    const params = {
-      groupUuid: this.$route.query.id,
-    }
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+      const url = '/Group/getGroupByUuid'
+      const params = {
+        groupUuid: this.$route.query.id,
+      }
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
         this.picList = response.data.data.pic_result.pics_1;
         this.pic2List = response.data.data.pic_result.pics_2;
@@ -129,25 +135,23 @@ export default {
         this.arr.push(response.data.data.memo) //大咖介绍
       })
     },
-    currentNum(index) {
-      return this.num == index;
+    setupWebViewJavascriptBridge(callback) {  
+      if (window.WebViewJavascriptBridge) {
+          callback(WebViewJavascriptBridge)
+      } else {
+          document.addEventListener('WebViewJavascriptBridgeReady', function() {
+          callback(WebViewJavascriptBridge)
+          }, false)
+      }
     },
-    tab(index) {
-      this.num = index;
-    },
-    getStings(uuid){
-      // bridge.callHandler("handlerName", data, function responseCallback(responseData) { ... })
-    },
-    // setupWebViewJavascriptBridge(callback) {
-    //   if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-    //   if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-    //   window.WVJBCallbacks = [callback];
-    //   var WVJBIframe = document.createElement('iframe');
-    //   WVJBIframe.style.display = 'none';
-    //   WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-    //   document.documentElement.appendChild(WVJBIframe);
-    //   setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
-    // },
+    goPage() { 
+      console.log('ok');
+      this.setupWebViewJavascriptBridge((bridge) => {
+        bridge.registerHandler('goPage', {'blogURL': 'http://www.huangyibiao.com'}, (response) => {
+          log('JS got response', response)
+        })
+      }) 
+    }
   }
 }
 </script>
@@ -209,12 +213,12 @@ export default {
       font-size: 0
       text-align: center
       .current 
-        color: Rgba(187 165 112)
+        color: #caa14e
       .current::before
         content: ''
         width: 50%
         height: 3px;
-        background-color: Rgba(187 165 112)
+        background-color: #caa14e
         position: absolute
         bottom: -2px
         left: 0

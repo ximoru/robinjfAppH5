@@ -133,7 +133,7 @@ export default {
       line-height: 1.2
       padding:
         left: 20px
-        right: 100px
+        right: 110px
       height: 100%
     dl
       height: 50px
