@@ -34,7 +34,7 @@
    <div class="management-card-content">
      <div class="management-card-content-main management-card-content-pic">
        <ul>
-         <li @click="goPage()" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
+         <li @click="goPage(pics3.uuid)" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
            <a ><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
            <p>{{pics3.bunmtUsername}}</p>
          </li>
@@ -135,23 +135,38 @@ export default {
         this.arr.push(response.data.data.memo) //大咖介绍
       })
     },
-    setupWebViewJavascriptBridge(callback) {  
-      if (window.WebViewJavascriptBridge) {
-          callback(WebViewJavascriptBridge)
-      } else {
-          document.addEventListener('WebViewJavascriptBridgeReady', function() {
-          callback(WebViewJavascriptBridge)
-          }, false)
-      }
+    setupWebViewJavascriptBridge(callback) {
+      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
     },
-    goPage() { 
-      console.log('ok');
-      this.setupWebViewJavascriptBridge((bridge) => {
-        bridge.registerHandler('goPage', {'blogURL': 'http://www.huangyibiao.com'}, (response) => {
-          log('JS got response', response)
-        })
-      }) 
-    }
+    /*跳转到信号源页面*/  
+    goPage(id) { 
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS) {
+        //ios app 设备才执行
+        self.setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('goPage', { 'uuid': id }, (response) => {
+              alert(response);
+            });
+            return false
+        });
+      }else if(isAndroid) {
+         window.android.openMaster(id);
+         return false  
+      }else { 
+        alert("只能在 Android 或 ios 打开");
+      }   
+    },
+    
   }
 }
 </script>
@@ -197,14 +212,14 @@ export default {
         padding:
           left: 20px
           right: 24px
-        background-image: url(./b.png)
+        background-image: url(../../assets/b.png)
         background-size: 100% 100%
         background-repeat: no-repeat
         background-position: center
       & > div:first-child
         padding:
           left: 10px
-        background-image: url(./f.png)
+        background-image: url(../../assets/ff.png)
 .management-content 
   .management-content-tab
     ul
@@ -314,18 +329,18 @@ export default {
         li
           overflow: hidden
           background-color: #fff
-          border-right: 1.5px solid Rgba( 215 211 216)
+          border-right: 1.5px solid #d7d3d8
           border-radius: 0
           margin-right: 0
-          width: 90px
+          width: 100px
           height: auto
           p
             line-height: 22px
             padding-top: 10px
             text-align: center
-            color: Rgba(74 74 74)
+            color: #4a4a4a
             font-size: 16px
-            white-space: normal
+            white-space: nowrap
           a
             width: 50px
             height: 50px

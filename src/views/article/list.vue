@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     title() {
-      return ['', '基础知识', '风险提示', '新手教程', '大咖观点'][this.classTypeUuid]
+      return ['', '基础知识', '最新新闻', '新手教程', '市场分析'][this.classTypeUuid]
     },
   },
   methods: {

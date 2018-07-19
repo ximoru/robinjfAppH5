@@ -57,8 +57,8 @@ export default {
 <style lang="sass">
 .z-select
   position: relative
-  height: 60px
-  line-height: 60px
+  height: 40px
+  line-height: 40px
   width: 100%
   color: #333
   select
@@ -71,5 +71,4 @@ export default {
   img
     height: 40px
     width: 40px
-    margin-top: 11px
 </style>

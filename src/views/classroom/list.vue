@@ -8,17 +8,7 @@
         </router-link>
       </div>
       <div class="classroom-header-line-warp clear">
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 1 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 2 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 3 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left"
-          :to="{ name: 'articleList', query: { id: 4 } }"
+        <router-link  v-for="(item, index) in items" :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-line left border-right"
         ></router-link>
       </div>
     </section>
@@ -54,16 +44,16 @@ export default {
       items: [],
       itemsImg:[
         {
-          url: './static/1.png',
+          url: './static/one.png',
         },
         {
-          url: './static/2.png',
+          url: './static/two.png',
         },
         {
-          url: './static/3.png',
+          url: './static/three.png',
         },
         {
-          url: './static/4.png',
+          url: './static/four.png',
         }
       ]
     }

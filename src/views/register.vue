@@ -132,7 +132,7 @@
       </z-checkbox>
     </div>
     <div class="bt">
-      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="./loading.gif" alt="">提交中，请稍后</button>
+      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
       <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
     </div>
     <div class="bt return">
@@ -381,7 +381,7 @@ export default {
     },
     goNext() { 
       let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
-      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+      // let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -421,10 +421,10 @@ export default {
           window.alert('请输入正确的身份证号')
           return false;
         }
-        if (!em.test(email)) {
-          window.alert('请输入正确的邮箱地址')
-          return false;
-        }
+        // if (!em.test(email)) {
+        //   window.alert('请输入正确的邮箱地址')
+        //   return false;
+        // }
         if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
           window.alert('请检查填写内容是否正确')
         }

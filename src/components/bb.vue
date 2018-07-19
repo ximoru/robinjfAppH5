@@ -20,6 +20,7 @@ export default {
 <style lang="sass">
 section.bb
   line-height: 60px
+  padding: 10px 0
   font-size: 14px
   position: relative
   background: #fff
@@ -29,13 +30,15 @@ section.bb
     position: absolute
     left: 0
     top: 0
+    bottom: 0
     padding-left: 20px
-    height: 60px
   .c
     width: 100%
+    height: 40px
+    line-height: 40px
+
     input
+      height: 100%
       font-size: 14px
-      height: inherit
-      line-height: inherit
       display: block
 </style>
