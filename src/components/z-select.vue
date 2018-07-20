@@ -10,7 +10,7 @@
       >{{ item.label }}</option>
     </select>
     <dl class="left hidden" :style="{maxWidth: `${width}px`}">{{ name || '请选择'}}</dl>
-    <img class="left" src="./z.jpg" alt="z">
+    <img class="left" src="../assets/z.jpg" alt="z">
   </div>
 </template>
 

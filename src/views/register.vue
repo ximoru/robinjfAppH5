@@ -9,12 +9,12 @@
     <flex>
       <flex-item>
         <bb label="中文姓" :width="86">
-          <input type="text" style="width: 80px" placeholder="与身份证同" maxlength="5" v-model="form.cnFirtName" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')">
+          <input type="text" style="width: 80px" placeholder="与身份证同" maxlength="5" v-model="form.cnFirtName" >
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="8" v-model="form.cnLastName" onkeyup="value=value.replace(/[\d]/g,'') ">
+          <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="8" v-model="form.cnLastName" >
         </bb>
       </flex-item>
     </flex>
@@ -22,12 +22,12 @@
     <flex>
       <flex-item>
         <bb label="英文姓" :width="86">
-          <input type="name"  name="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" >
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="name"  name="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" >
         </bb>
       </flex-item>
     </flex>
@@ -380,8 +380,10 @@ export default {
       })
     },
     goNext() { 
+      let cn = /[\u4e00-\u9fa5]/;
+      let na = /^[a-zA-Z]+$/;
       let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
-      // let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -417,14 +419,22 @@ export default {
         address &&
         zipCode 
       ) {
+        if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
+           window.alert('请输入正确的中文姓或者中文名')
+           return false;
+        }
+        if (!na.test(enFirtName) || !na.test(enLastName)) {
+          window.alert('请输入正确的英文姓或者英文名')
+          return false;
+        }
         if (!reg.test(idNo)) {
           window.alert('请输入正确的身份证号')
           return false;
         }
-        // if (!em.test(email)) {
-        //   window.alert('请输入正确的邮箱地址')
-        //   return false;
-        // }
+        if (!em.test(email)) {
+          window.alert('请输入正确的邮箱地址')
+          return false;
+        }
         if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
           window.alert('请检查填写内容是否正确')
         }
