@@ -7,10 +7,10 @@
             <p>{{item.typename}}</p>
         </router-link>
       </div>
-      <div class="classroom-header-line-warp clear">
+      <!-- <div class="classroom-header-line-warp clear">
         <router-link  v-for="(item, index) in items" :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-line left border-right"
         ></router-link>
-      </div>
+      </div> -->
     </section>
 
     <section class="classroom-list">
@@ -44,16 +44,16 @@ export default {
       items: [],
       itemsImg:[
         {
-          url: './static/one.png',
+          url: './static/robin_classroom.one.png',
         },
         {
-          url: './static/two.png',
+          url: './static/robin_classroom.two.png',
         },
         {
-          url: './static/three.png',
+          url: './static/robin_classroom.three.png',
         },
         {
-          url: './static/four.png',
+          url: './static/robin_classroom.four.png',
         }
       ]
     }
@@ -125,12 +125,11 @@ export default {
 .classroom-header
   position: relative
   background-color: #fff
-  margin-top: 10px
+  margin-top: 8px
   overflow: hidden
   .classroom-header-mian
     white-space: nowrap;
-    height: 90px
-    overflow-x: auto
+    height: 89px
     font-size: 0
     -webkit-overflow-scrolling: touch
     ul::-webkit-scrollbar
@@ -143,11 +142,13 @@ export default {
       // display: inline-block
       // vertical-align: top
       img
-        width: 30%
+        width: 32px
+        height: 32px
         margin-bottom: 5px
       p
-        margin-top: 3px
+        line-height: 20px
         font-size: 14px
+        color: #4A4A4A
   .classroom-header-line-warp
     width: 100%
     position: absolute
