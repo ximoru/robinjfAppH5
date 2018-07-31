@@ -44,16 +44,16 @@ export default {
       items: [],
       itemsImg:[
         {
-          url: './static/robin_classroom.one.png',
+          url: './static/robin_classroom_one.png',
         },
         {
-          url: './static/robin_classroom.two.png',
+          url: './static/robin_classroom_two.png',
         },
         {
-          url: './static/robin_classroom.three.png',
+          url: './static/robin_classroom_three.png',
         },
         {
-          url: './static/robin_classroom.four.png',
+          url: './static/robin_classroom_four.png',
         }
       ]
     }
