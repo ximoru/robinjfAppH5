@@ -1,7 +1,7 @@
 <template>
   <div class="finish">
     <h1>资料已成功提交</h1>
-    <img src="./f.png" alt="f">
+    <img src="../assets/f.png" alt="f">
     <p>
       账户审核需要3-7个工作日，审核通过后会有通知，请注意查收邮件。
     </p>

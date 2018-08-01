@@ -20,7 +20,7 @@
   <section class="management-content">
     <div class="management-content-tab">
        <ul>
-         <li v-for="(item ,index) in tabs" :class="{active:index == num}" @click="tab(index)">{{item}}</li>
+         <li v-for="(item ,index) in tabs" :class="{current:num == index}" @click="index == num,tab(index)">{{item}}</li>
        </ul>
        <div class="management-tabMain">
         <div class="management-card" v-for="(itemCon, index) in arr" v-show="currentNum(index)">
@@ -34,9 +34,9 @@
    <div class="management-card-content">
      <div class="management-card-content-main management-card-content-pic">
        <ul>
-         <li class="" v-for="pics3 in pic3List" :key="pics3.uuid">
-           <a><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
-           <p>{{pics3.bunmtGroupName}}</p>
+         <li @click="goPage(pics3.uuid)" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
+           <a ><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
+           <p>{{pics3.bunmtUsername}}</p>
          </li>
        </ul>
      </div>
@@ -87,7 +87,7 @@ export default {
       pic3List: [],
       tabs: ["投资理念", "罗宾点评" ,"大咖介绍"],
       num: 0,
-      active: true 
+      cur: true
     }
   },
   computed: {
@@ -111,15 +111,20 @@ export default {
     iframe.addEventListener('load', d)
     document.body.appendChild(iframe)
     this.getDetail()
-
   },
   methods: {
+    currentNum(index) {
+      return this.num == index;
+    },
+    tab(index) {
+      this.num = index;
+    },
     getDetail() {
-    const url = '/Group/getGroupByUuid'
-    const params = {
-      groupUuid: this.$route.query.id,
-    }
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+      const url = '/Group/getGroupByUuid'
+      const params = {
+        groupUuid: this.$route.query.id,
+      }
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
         this.picList = response.data.data.pic_result.pics_1;
         this.pic2List = response.data.data.pic_result.pics_2;
@@ -130,14 +135,39 @@ export default {
         this.arr.push(response.data.data.memo) //大咖介绍
       })
     },
-    currentNum(index) {
-      return this.num == index;
+    setupWebViewJavascriptBridge(callback) {
+      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
     },
-    tab(index) {
-      this.num = index;
-    }
-
-  },
+    /*跳转到信号源页面*/  
+    goPage(id) { 
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS) {
+        //ios app 设备才执行
+        self.setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('goPage', { 'uuid': id }, (response) => {
+              alert(response);
+            });
+            return false
+        });
+      }else if(isAndroid) {
+         window.android.openMaster(id);
+         return false  
+      }else { 
+        alert("只能在 Android 或 ios 打开");
+      }   
+    },
+    
+  }
 }
 </script>
 
@@ -182,14 +212,14 @@ export default {
         padding:
           left: 20px
           right: 24px
-        background-image: url(./b.png)
+        background-image: url(../../assets/b.png)
         background-size: 100% 100%
         background-repeat: no-repeat
         background-position: center
       & > div:first-child
         padding:
           left: 10px
-        background-image: url(./f.png)
+        background-image: url(../../assets/ff.png)
 .management-content 
   .management-content-tab
     ul
@@ -197,13 +227,13 @@ export default {
       background-color: #fff
       font-size: 0
       text-align: center
-      .active
-        position: relative
-      .active::before
+      .current 
+        color: #caa14e
+      .current::before
         content: ''
         width: 50%
-        height: 2px;
-        background-color: Rgba(187 165 112)
+        height: 3px;
+        background-color: #caa14e
         position: absolute
         bottom: -2px
         left: 0
@@ -212,6 +242,7 @@ export default {
         margin: auto
         border-radius: 20px
       li
+        position: relative
         font-size: 16px;
         line-height: 22px
         width: 33.3%
@@ -294,23 +325,22 @@ export default {
       overflow: hidden
       ul
         height: auto
-        margin-left: -10px
         padding: 10px 0
         li
           overflow: hidden
           background-color: #fff
-          border-right: 1px solid Rgba( 215 211 216)
+          border-right: 1.5px solid #d7d3d8
           border-radius: 0
           margin-right: 0
-          width: 90px
+          width: 100px
           height: auto
           p
             line-height: 22px
             padding-top: 10px
             text-align: center
-            color: Rgba(74 74 74)
+            color: #4a4a4a
             font-size: 16px
-            white-space: normal
+            white-space: nowrap
           a
             width: 50px
             height: 50px

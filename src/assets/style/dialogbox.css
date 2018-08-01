@@ -1,0 +1,58 @@
+/* 弹窗样式 */
+.dialogbox {
+    position: fixed;
+    z-index: 202;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: table
+}
+.dialogbox-main{
+    display: table-cell;
+    vertical-align: middle
+}
+.dialogbox-main .dialogbox-body{
+    text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 75%;
+    margin: auto;
+    font-size: 16px;
+}       
+.dialogbox-overlay {     
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 20
+  } 
+.slideup-enter-active{
+        animation-name: dialogscale;
+        animation-duration: .4s;
+        animation-fill-mode: both
+    }
+.slideup-leave-active {
+    animation-name: dialogscale;
+    animation-duration: .5s;
+    animation-fill-mode: both
+}
+@keyframes dialogscale {
+    from{transform:scale(0);opacity:0;}
+    to {transform:scale(1);opacity:1;}
+}
+@-webkit-keyframes dialogscale {
+    from {-webkit-transform:scale(0);opacity:0;}
+    to {-webkit-transform:scale(1);opacity:1;}
+}
+@keyframes dialogsleave {
+    from{opacity: 1;}
+    to {opacity:0;}
+}
+@-webkit-keyframes dialogsleave {
+     from{opacity: 1;}
+    to {opacity:0;}
+}

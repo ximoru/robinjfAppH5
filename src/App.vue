@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <!-- <loading v-show="loading" class="load">
+      <p>下拉可以刷新</p>
+      <p>松开立即刷新</p>
+    </loading> -->
     <router-view :key="key"/>
   </div>
 </template>
@@ -13,6 +17,8 @@ export default {
       this.$route.name + +new Date()
       : this.$route + +new Date()
     },
+
+
   },
 }
 </script>

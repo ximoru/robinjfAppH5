@@ -1,56 +1,27 @@
 <template>
   <div class="warp">
     <section class="classroom-header clear">
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 1 } }"
-      >
-        <img src="./1.png" alt="img">
-        <p>基础知识</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 2 } }"
-      >
-        <img src="./2.png" alt="img">
-        <p>风险提示</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 3 } }"
-      >
-        <img src="./3.png" alt="img">
-        <p>新手教程</p>
-      </router-link>
-      <router-link class="classroom-header-item left"
-        :to="{ name: 'articleList', query: { id: 4 } }"
-      >
-        <img src="./4.png" alt="img">
-        <p>大咖观点</p>
-      </router-link>
-
-      <div class="classroom-header-line-warp clear">
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 1 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 2 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left border-right"
-          :to="{ name: 'articleList', query: { id: 3 } }"
-        ></router-link>
-        <router-link class="classroom-header-line left"
-          :to="{ name: 'articleList', query: { id: 4 } }"
-        ></router-link>
+      <div class="classroom-header-mian flex">
+        <router-link v-for="(item, index) in items"  :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-item  flex-cols">
+            <img :src="item.src" alt="">
+            <p>{{item.typename}}</p>
+        </router-link>
       </div>
+      <!-- <div class="classroom-header-line-warp clear">
+        <router-link  v-for="(item, index) in items" :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-line left border-right"
+        ></router-link>
+      </div> -->
     </section>
 
     <section class="classroom-list">
       <div class="classroom-list-header">全部文章</div>
-      <router-link class="classroom-list-item border-bottom"
+      <router-link class="classroom-list-item border-bottom flex"
         v-for="item in list"
         :key="item.uuid"
         :to="{ name: 'classroomModular', query: { id: item.classUuid } }"
       >
         <p>{{ item.className }}</p>
-        <dl>
+        <dl class="flex-cols">
           <img :src="item.picPath" alt="pic">
         </dl>
       </router-link>
@@ -69,12 +40,28 @@ export default {
       list: [],
       page: 0,
       pagesize: 12,
-      classTypeUuid: 1,
+      classTypeUuid: 0,
+      items: [],
+      itemsImg:[
+        {
+          url: './static/robin_classroom_one.png',
+        },
+        {
+          url: './static/robin_classroom_two.png',
+        },
+        {
+          url: './static/robin_classroom_three.png',
+        },
+        {
+          url: './static/robin_classroom_four.png',
+        }
+      ]
     }
   },
   mounted() {
     this.init()
     this.getList()
+    this.getTypeList()
   },
   methods: {
     init() {
@@ -82,7 +69,6 @@ export default {
       document.title = 'Robin Fin'
       var iframe = document.createElement("iframe")
       iframe.style.display="none"
-      iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
       var d = function() {
         setTimeout(function() {
           iframe.removeEventListener('load', d)
@@ -98,20 +84,32 @@ export default {
         })
       }
     },
-    getList() {
+    /*文章title接口*/
+    getTypeList() {
+      const url = '/Class/getClassTypeList';   
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+      axios.post(url).then(response => {
+        this.items = response.data.data
+        for (let i =0, len = this.items.length; i<len; i++){
+           this.items[i].src = this.itemsImg[i].url;
+        }
+        this.classTypeUuid = response.data.data[0].uuid;
+
+      });
+
+    },
+    /*全部文章接口*/
+    getList() {32
       const url = '/Class/listPage'
       this.classTypeUuid = this.$route.query.id || 1
       const params = {
         page: this.page,
         pagesize: this.pagesize,
-        classTypeUuid: 5,
+        classTypeUuid: '',
       }
-
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
-        console.log(response.data)
         const results = response.data
-        console.log(results)
         this.list = [...this.list, ...results.data]
         this.page += 1
       })
@@ -127,18 +125,30 @@ export default {
 .classroom-header
   position: relative
   background-color: #fff
-  margin-top: 10px
-  .classroom-header-item
-    height: 90px
-    width: 25%
-    text-align: center
-    padding: 16px 0
-    display: block
-    img
-      width: 30%
-      margin-bottom: 5px
-    p
-      margin-top: 3px
+  margin-top: 8px
+  overflow: hidden
+  .classroom-header-mian
+    white-space: nowrap;
+    height: 89px
+    font-size: 0
+    -webkit-overflow-scrolling: touch
+    ul::-webkit-scrollbar
+      display: none
+    .classroom-header-item
+      height: 90px
+      width: 25%
+      text-align: center
+      padding: 16px 0
+      // display: inline-block
+      // vertical-align: top
+      img
+        width: 32px
+        height: 32px
+        margin-bottom: 5px
+      p
+        line-height: 20px
+        font-size: 14px
+        color: #4A4A4A
   .classroom-header-line-warp
     width: 100%
     position: absolute
@@ -172,7 +182,7 @@ export default {
       line-height: 1.2
       padding:
         left: 20px
-        right: 100px
+        right: 110px
       height: 100%
     dl
       height: 50px

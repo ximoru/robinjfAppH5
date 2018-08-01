@@ -9,12 +9,12 @@
     <flex>
       <flex-item>
         <bb label="中文姓" :width="86">
-          <input type="text" style="width: 80px" placeholder="与身份证同" maxlength="5" v-model="form.cnFirtName" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')">
+          <input type="text" style="width: 80px" placeholder="与身份证同" maxlength="5" v-model="form.cnFirtName" >
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="8" v-model="form.cnLastName" onkeyup="value=value.replace(/[\d]/g,'') ">
+          <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="8" v-model="form.cnLastName" >
         </bb>
       </flex-item>
     </flex>
@@ -22,18 +22,18 @@
     <flex>
       <flex-item>
         <bb label="英文姓" :width="86">
-          <input type="name"  name="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 85px" placeholder="英文名或拼音" v-model="form.enFirtName" >
         </bb>
       </flex-item>
       <flex-item>
         <bb label="名" :width="40">
-          <input type="name"  name="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" onkeyup="value=value.replace(/[^a-zA-Z]/g,'')">
+          <input type="name"  name="name" style="width: 110px" placeholder="英文名或拼音" v-model="form.enLastName" >
         </bb>
       </flex-item>
     </flex>
   
     <bb label="身份证号" :width="86">
-      <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo">
+      <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo" >
     </bb>
 
     <bb label="出生日期" :width="86">
@@ -132,24 +132,35 @@
       </z-checkbox>
     </div>
     <div class="bt">
-      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="./loading.gif" alt="">提交中，请稍后</button>
+      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
       <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
     </div>
     <div class="bt return">
       <button @click="reback()">上一步</button>
     </div>
   </div>
+  <button type="submit" style="margin-top:-80px;position: relative" v-on:click="show = !show">提交</button>
+  <transition  name="slideup">
+    <div class="dialogbox" v-if="show" >
+      <div class="dialogbox-main">
+        <div class="dialogbox-body">
+          <p class="title">请填写争取的内容</p>
+        </div>
+      </div>
+    </div>
+  </transition>
+  <div class="dialogbox-overlay" v-if="show"></div>
 </div>
 </template>
 
 <script>
 import axios from 'axios'
 import d from './data.json'
-
 export default {
   name: 'register',
   data() {
     return {
+      show: false,
       isSite: true,
       isEmail: true,
       loaing: false,
@@ -295,7 +306,6 @@ export default {
     }
   },
   created() {
-    console.log(d)
     this.form.phone = this.$route.query.phone
     for (let year = 1950; year < 2019; year++) {
       this.yList.push({
@@ -349,6 +359,9 @@ export default {
       return list
     }
   },
+  mounted () {
+  this.animateLave()
+  },
   methods: {
     save() {
       this.loaing = true
@@ -357,17 +370,33 @@ export default {
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      axios.post(url, formdata).then(response => {
-        console.log(response.data)
-        this.loading = true
-        this.$router.replace({ name: 'finish' })
-      }).catch(res => {
+      let axiosConfig = {
+        validateStatus: function (status) {
+          return status >= 200 && status <= 300; // default
+        },
+      };
+      axios.post(url, formdata, axiosConfig).then(response => {
+        let data = response.data
         this.isDisbt = true 
         this.isDisabled = true
+        if (data.is_succ == true) {
+          this.loading = false
+          alert(data.error_msg)
+          this.$router.replace({ name: 'finish' })
+        }else{
+          alert(data.error_msg)
+          this.loading = false
+          this.next = 0
+        }
+      }).catch(res => {
         window.alert(res)
       })
     },
-    goNext() {
+    goNext() { 
+      let cn = /[\u4e00-\u9fa5]/;
+      let na = /^[a-zA-Z]+$/;
+      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -386,7 +415,6 @@ export default {
         address,
         zipCode,
       } = this.form
-
       if (
         cnFirtName &&
         cnLastName &&
@@ -402,30 +430,54 @@ export default {
         state &&
         city &&
         address &&
-        zipCode
+        zipCode 
       ) {
-        if (gender === '' || gender === void 0 ) {
-          window.alert('请检查填写内容')
+        if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
+          this.data.show = true,
+           windo('请输入正确的中文姓或者中文名')
+           return false;
+        }
+        if (!na.test(enFirtName) || !na.test(enLastName)) {
+          window.alert('请输入正确的英文姓或者英文名')
+          return false;
+        }
+        if (!reg.test(idNo)) {
+          window.alert('请输入正确的身份证号')
+          return false;
+        }
+        if (!em.test(email)) {
+          window.alert('请输入正确的邮箱地址')
+          return false;
+        }
+        if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
+          window.alert('请检查填写内容是否正确')
         }
         else {
           this.next = 1
         }
       } else {
-        window.alert('请检查填写内容')
+        alert('请检查填写内容')
       }
     },
+
     reback() {
       this.next = 0
+    },
+    animateLave() {
+
     }
 
   },
 }
 </script>
-
+<style type="text/css">
+  @import '../assets/style/dialogbox.css';
+</style>
 <style lang="sass">
 .r
   height: 100%
   min-height: 100%
+  position: relative
 .register
   height: 100%
   min-height: 100%
@@ -460,7 +512,7 @@ export default {
       color: #1B2B84
   .return
   .bt
-    padding: 0 20px 20px 20px 
+    padding: 10px 20px 10px 20px 
     background-color: #fff
     .loImg
       background-color: #4a7cca
@@ -476,7 +528,5 @@ export default {
      background-color: #5f647b
      box-shadow: 0 2px 4px 0 #5f647b
      -webkit-box-shadow: 0 2px 4px 0 #5f647b
-  
-
 
 </style>

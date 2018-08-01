@@ -10,7 +10,7 @@
       >{{ item.label }}</option>
     </select>
     <dl class="left hidden" :style="{maxWidth: `${width}px`}">{{ name || '请选择'}}</dl>
-    <img class="left" src="./z.jpg" alt="z">
+    <img class="left" src="../assets/z.jpg" alt="z">
   </div>
 </template>
 
@@ -57,8 +57,8 @@ export default {
 <style lang="sass">
 .z-select
   position: relative
-  height: 60px
-  line-height: 60px
+  height: 40px
+  line-height: 40px
   width: 100%
   color: #333
   select
@@ -71,5 +71,4 @@ export default {
   img
     height: 40px
     width: 40px
-    margin-top: 11px
 </style>

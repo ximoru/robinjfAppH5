@@ -34,7 +34,6 @@ export default {
     document.title = this.title
     var iframe = document.createElement("iframe")
     iframe.style.display="none"
-    iframe.setAttribute("src", "http://named.cn/page/take/img/icon_phone.png")
     var d = function() {
       setTimeout(function() {
         iframe.removeEventListener('load', d)
@@ -50,7 +49,7 @@ export default {
   },
   computed: {
     title() {
-      return ['', '基础知识', '风险提示', '新手教程', '大咖观点'][this.classTypeUuid]
+      return ['', '基础知识', '最新新闻', '新手教程', '市场分析'][this.classTypeUuid]
     },
   },
   methods: {
@@ -73,7 +72,6 @@ export default {
 
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       axios.post(url, {}, { params }).then(response => {
-        console.log(response.data)
         const results = response.data
         this.list = [...this.list, ...results.data]
         this.page += 1
@@ -135,7 +133,7 @@ export default {
       line-height: 1.2
       padding:
         left: 20px
-        right: 100px
+        right: 110px
       height: 100%
     dl
       height: 50px
