@@ -139,17 +139,28 @@
       <button @click="reback()">上一步</button>
     </div>
   </div>
+  <button type="submit" style="margin-top:-80px;position: relative" v-on:click="show = !show">提交</button>
+  <transition  name="slideup">
+    <div class="dialogbox" v-if="show" >
+      <div class="dialogbox-main">
+        <div class="dialogbox-body">
+          <p class="title">请填写争取的内容</p>
+        </div>
+      </div>
+    </div>
+  </transition>
+  <div class="dialogbox-overlay" v-if="show"></div>
 </div>
 </template>
 
 <script>
 import axios from 'axios'
 import d from './data.json'
-
 export default {
   name: 'register',
   data() {
     return {
+      show: false,
       isSite: true,
       isEmail: true,
       loaing: false,
@@ -295,7 +306,6 @@ export default {
     }
   },
   created() {
-    // console.log(d)
     this.form.phone = this.$route.query.phone
     for (let year = 1950; year < 2019; year++) {
       this.yList.push({
@@ -348,6 +358,9 @@ export default {
       }
       return list
     }
+  },
+  mounted () {
+  this.animateLave()
   },
   methods: {
     save() {
@@ -420,7 +433,8 @@ export default {
         zipCode 
       ) {
         if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
-           window.alert('请输入正确的中文姓或者中文名')
+          this.data.show = true,
+           windo('请输入正确的中文姓或者中文名')
            return false;
         }
         if (!na.test(enFirtName) || !na.test(enLastName)) {
@@ -442,22 +456,28 @@ export default {
           this.next = 1
         }
       } else {
-        window.alert('请检查填写内容')
+        alert('请检查填写内容')
       }
     },
 
     reback() {
       this.next = 0
+    },
+    animateLave() {
+
     }
 
   },
 }
 </script>
-
+<style type="text/css">
+  @import '../assets/style/dialogbox.css';
+</style>
 <style lang="sass">
 .r
   height: 100%
   min-height: 100%
+  position: relative
 .register
   height: 100%
   min-height: 100%
@@ -508,7 +528,5 @@ export default {
      background-color: #5f647b
      box-shadow: 0 2px 4px 0 #5f647b
      -webkit-box-shadow: 0 2px 4px 0 #5f647b
-  
-
 
 </style>

@@ -99,7 +99,7 @@ export default {
 
     },
     /*全部文章接口*/
-    getList() {
+    getList() {32
       const url = '/Class/listPage'
       this.classTypeUuid = this.$route.query.id || 1
       const params = {
