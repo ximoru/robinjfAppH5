@@ -15,6 +15,7 @@ import flexItem from './components/flex-item'
 import {obj} from './urlconfig.js'
 axios.defaults.baseURL = obj.defaultsUrl;
 
+
 require('./sass/comm.sass')
 
 Vue.prototype._ = util
