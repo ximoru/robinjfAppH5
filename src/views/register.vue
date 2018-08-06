@@ -80,10 +80,9 @@
       <input type="text" style="width: 240px" v-model="form.zipCode"  maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')">
     </bb>
     <div class="bt">
-      <button @click="goNext()">下一步</button>
+      <button @click="goNext()" >下一步</button>
     </div>
   </div>
-
   <div class="register" v-else>
     <div class="register-title">
       <dl>投资信息确认</dl>
@@ -139,28 +138,35 @@
       <button @click="reback()">上一步</button>
     </div>
   </div>
-  <button type="submit" style="margin-top:-80px;position: relative" v-on:click="show = !show">提交</button>
-  <transition  name="slideup">
-    <div class="dialogbox" v-if="show" >
-      <div class="dialogbox-main">
-        <div class="dialogbox-body">
-          <p class="title">请填写争取的内容</p>
-        </div>
+  <!-- 提示弹窗 -->
+  <div class="dialogbox" v-show='show'> 
+    <div class="dialogbox-wrap">
+      <div class="dialogbox-body">
+        <transition name="slideup">
+          <div class="dialogbox-body-main" v-if="show" >
+            <div class="prompt">提示</div>
+            <p class="title" v-html="text">{{text}}</p>
+            <button class="button-deflaut" @click="close()">关闭</button>
+          </div>
+        </transition>
       </div>
     </div>
-  </transition>
-  <div class="dialogbox-overlay" v-if="show"></div>
+    <div class="dialogbox-overlay"></div>
+  </div>
+  <!-- 提示弹窗 -->
 </div>
 </template>
-
+<style type="text/css">
+  @import '../assets/style/dialogbox.css';
+</style>
 <script>
 import axios from 'axios'
 import d from './data.json'
+
 export default {
   name: 'register',
   data() {
     return {
-      show: false,
       isSite: true,
       isEmail: true,
       loaing: false,
@@ -170,6 +176,9 @@ export default {
       next: 0,
       bb: 0,
       zz: 0,
+      dialogbox: 0,
+      show: false,
+      text: '',
       gList: [{
         label: '中国',
         value: '中国',
@@ -303,6 +312,7 @@ export default {
       yList: [],
       mList: [],
       dList: [],
+      text: [],
     }
   },
   created() {
@@ -358,9 +368,6 @@ export default {
       }
       return list
     }
-  },
-  mounted () {
-  this.animateLave()
   },
   methods: {
     save() {
@@ -433,46 +440,48 @@ export default {
         zipCode 
       ) {
         if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
-          this.data.show = true,
-           windo('请输入正确的中文姓或者中文名')
+           this.text ="请输入正确的中文姓或者中文名"
+           this.show = true
            return false;
         }
         if (!na.test(enFirtName) || !na.test(enLastName)) {
-          window.alert('请输入正确的英文姓或者英文名')
+          this.text = '请输入正确的英文姓或者英文名'
+          this.show = true
           return false;
         }
         if (!reg.test(idNo)) {
-          window.alert('请输入正确的身份证号')
+          this.text ='请输入正确的身份证号'
+          this.show = true
           return false;
         }
         if (!em.test(email)) {
-          window.alert('请输入正确的邮箱地址')
+          this.text = '请输入正确的邮箱地址'
+          this.show = true
           return false;
         }
         if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
-          window.alert('请检查填写内容是否正确')
+          this.text = '请检查填写内容是否正确'
+          this.show = true
         }
         else {
           this.next = 1
         }
       } else {
-        alert('请检查填写内容')
+        this.text = '请检查填写内容是否正确'
+        this.show = 1   
       }
     },
-
     reback() {
       this.next = 0
     },
-    animateLave() {
-
+    close () {
+      this.show = 0
     }
 
   },
 }
 </script>
-<style type="text/css">
-  @import '../assets/style/dialogbox.css';
-</style>
+
 <style lang="sass">
 .r
   height: 100%

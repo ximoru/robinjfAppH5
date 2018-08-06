@@ -1,26 +1,43 @@
 /* 弹窗样式 */
 .dialogbox {
-    position: fixed;
-    z-index: 202;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    display: table
+  position: relative
 }
-.dialogbox-main{
-    display: table-cell;
-    vertical-align: middle
+.dialogbox .dialogbox-wrap{
+  position: fixed;
+  z-index: 202;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: table
 }
-.dialogbox-main .dialogbox-body{
-    text-align: center;
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    width: 75%;
-    margin: auto;
-    font-size: 16px;
-}       
+.dialogbox .dialogbox-body{
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;    
+} 
+.dialogbox .dialogbox-body-main{
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  width: 70%;
+  margin: auto;
+  font-size: 16px; 
+}  
+.dialogbox .dialogbox-body-main .prompt{
+  text-align:left;
+  font-size: 18px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+.dialogbox .dialogbox-body-main .title{
+  padding: 20px 0;
+  border-top: 1px solid #e4e4e4;
+}
+.dialogbox .dialogbox-body-main .button-deflaut{
+  height:35px;
+  line-height: 35px
+}
 .dialogbox-overlay {     
   position: fixed;
   left: 0;
@@ -29,16 +46,16 @@
   bottom: 0;
   background: rgba(0,0,0,.5);
   z-index: 20
-  } 
+} 
 .slideup-enter-active{
-        animation-name: dialogscale;
-        animation-duration: .4s;
-        animation-fill-mode: both
-    }
+  animation-name: dialogscale;
+  animation-duration: .4s;
+  animation-fill-mode: both
+}
 .slideup-leave-active {
-    animation-name: dialogscale;
-    animation-duration: .5s;
-    animation-fill-mode: both
+  animation-name: dialogscale;
+  animation-duration: .5s;
+  animation-fill-mode: both
 }
 @keyframes dialogscale {
     from{transform:scale(0);opacity:0;}

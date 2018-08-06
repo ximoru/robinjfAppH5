@@ -30,7 +30,7 @@ export default {
 		}
 		iframe.addEventListener('load', d)
 		document.body.appendChild(iframe)
-		this.getDetail()
+		this.getDetail();
 	},
 	methods: {
 		getDetail() {
@@ -38,13 +38,41 @@ export default {
 			const params = {
 				classUuid: this.$route.query.id,
 			}
-
 			axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 			axios.post(url, {}, { params }).then(response => {
-				this.form = response.data.data
-			})
+				this.form = response.data.data;
+				this.shareExport() 
+			})	
 		},
-	},
+		/*分享地址方法暴露给ios*/
+		setupWebViewJavascriptBridge(callback) {
+	      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	      window.WVJBCallbacks = [callback];
+	      var WVJBIframe = document.createElement('iframe');
+	      WVJBIframe.style.display = 'none';
+	      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+	      document.documentElement.appendChild(WVJBIframe);
+	      setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
+	    },
+	    shareExport() {
+	    	const self = this;
+	    	const classUuid = this.$route.query.id;
+	    	const data ={
+	    		title: this.form.className,
+	    		id: classUuid ,
+	    		adress: 'http://api.robinjf.com/class/share?uuid=1C0FD6EF0C6E49F89BAC95B4755E86D7" '+classUuid+' ',
+	    	}
+	    	self.setupWebViewJavascriptBridge((bridge) => {
+	            bridge.callHandler('shareAction',data, ( response) => {
+	              alert(response);
+	            });
+	            return false
+	        });
+
+	    },
+
+	}
 }
 </script>
 
