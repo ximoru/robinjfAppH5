@@ -63,12 +63,21 @@ export default {
 	    		id: classUuid ,
 	    		adress: 'http://api.robinjf.com/class/share?uuid=1C0FD6EF0C6E49F89BAC95B4755E86D7" '+classUuid+' ',
 	    	}
-	    	self.setupWebViewJavascriptBridge((bridge) => {
-	            bridge.callHandler('shareAction',data, ( response) => {
-	              alert(response);
-	            });
-	            return false
-	        });
+	    	let u = navigator.userAgent, app = navigator.appVersion; 
+	      	let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+	      	let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+	      	if (isiOS){
+		    	self.setupWebViewJavascriptBridge((bridge) => {
+		            bridge.callHandler('shareAction',data, ( response) => {
+		              /*alert(response);*/
+		            });
+		            return false
+		        });
+	      	} else if (isAndroid){
+	      		
+	      	} else {
+
+	      	}
 
 	    },
 
