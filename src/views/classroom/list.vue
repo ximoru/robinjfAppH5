@@ -44,16 +44,16 @@ export default {
       items: [],
       itemsImg:[
         {
-          url: './static/one.png',
+          url: './static/robin_classroom_one.png',
         },
         {
-          url: './static/two.png',
+          url: './static/robin_classroom_two.png',
         },
         {
-          url: './static/three.png',
+          url: './static/robin_classroom_three.png',
         },
         {
-          url: './static/four.png',
+          url: './static/robin_classroom_two.png',
         }
       ]
     }
@@ -62,6 +62,7 @@ export default {
     this.init()
     this.getList()
     this.getTypeList()
+    this.closeShareButton()
   },
   methods: {
     init() {
@@ -96,7 +97,6 @@ export default {
         this.classTypeUuid = response.data.data[0].uuid;
 
       });
-
     },
     /*全部文章接口*/
     getList() {32
@@ -113,6 +113,31 @@ export default {
         this.list = [...this.list, ...results.data]
         this.page += 1
       })
+    },
+    setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
+    },
+    closeShareButton() {
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS){
+        self.setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('closeShareAction', ( response) => {
+              });
+              return false
+          });
+      } else if (isAndroid){
+          
+      }
     },
   },
   beforeDestroy() {
