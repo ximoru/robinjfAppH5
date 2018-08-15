@@ -130,9 +130,12 @@
         我已阅读并同意<a href="https://www.ifmtrade.com/cn/about-us/legal-note/">【IFM风险说明】</a>
       </z-checkbox>
     </div>
-    <div class="bt">
+    <div class="bt" v-show="commit">
       <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
-      <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
+      <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button> 
+    </div>
+    <div class="bt" v-show="goMembers">
+        <button @click="goPayMembers()">去开通会员</button>
     </div>
     <div class="bt return">
       <button @click="reback()">上一步</button>
@@ -162,7 +165,6 @@
 <script>
 import axios from 'axios'
 import d from './data.json'
-
 export default {
   name: 'register',
   data() {
@@ -173,6 +175,8 @@ export default {
       isDisbt: false,
       isDisabled: false,
       isImg: false,
+      goMembers: false,
+      commit: true,
       next: 0,
       bb: 0,
       zz: 0,
@@ -316,8 +320,10 @@ export default {
     }
   },
   created() {
-    this.form.phone = this.$route.query.phone
-    for (let year = 1950; year < 2019; year++) {
+    this.form.phone = this.$route.query.phone;
+    let curDate  = new Date()
+    var curY = curDate.getFullYear()
+    for (let year = 1930; year <= curY; year++) {
       this.yList.push({
         label: year,
         value: year,
@@ -367,37 +373,69 @@ export default {
         })
       }
       return list
-    }
+    },
+   
   },
   methods: {
     save() {
       this.loaing = true
       this.isImg = true
+      this.isDisbt = true 
+      this.isDisabled = true
       const url = '/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       let axiosConfig = {
         validateStatus: function (status) {
-          return status >= 200 && status <= 300; // default
+          return status >= 200 && status <= 300;
         },
       };
       axios.post(url, formdata, axiosConfig).then(response => {
         let data = response.data
-        this.isDisbt = true 
-        this.isDisabled = true
         if (data.is_succ == true) {
           this.loading = false
           alert(data.error_msg)
           this.$router.replace({ name: 'finish' })
         }else{
-          alert(data.error_msg)
-          this.loading = false
-          this.next = 0
+          this.text = '请先开通会员'
+          this.show = true
+          this.loaing = false
+          this.isDisbt = false 
+          this.isDisabled = false
+          this.commit = false
+          this.goMembers = true
         }
       }).catch(res => {
         window.alert(res)
       })
+    },
+    /*跳转到开通会员页面*/
+    setupWebViewJavascriptBridge(callback) {
+      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
+    },
+    goPayMembers() {
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS) {
+        self.setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('joinVip', (response) => {
+            });
+            return false
+        });
+      }else if(isAndroid) {
+         // window.android.openMaster(id);
+         // return false  
+      }      
     },
     goNext() { 
       let cn = /[\u4e00-\u9fa5]/;
@@ -459,7 +497,7 @@ export default {
           this.show = true
           return false;
         }
-        if (gender === '' || gender === void 0 || reg.test(idNo) === '') {
+        if (gender === '' || gender === void 0 ) {
           this.text = '请检查填写内容是否正确'
           this.show = true
         }
@@ -477,7 +515,6 @@ export default {
     close () {
       this.show = 0
     }
-
   },
 }
 </script>

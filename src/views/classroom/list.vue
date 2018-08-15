@@ -135,8 +135,6 @@ export default {
               });
               return false
           });
-      } else if (isAndroid){
-          
       }
     },
   },

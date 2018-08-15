@@ -46,22 +46,22 @@ export default {
 		},
 		/*分享地址方法暴露给ios*/
 		setupWebViewJavascriptBridge(callback) {
-	      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-	      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-	      window.WVJBCallbacks = [callback];
-	      var WVJBIframe = document.createElement('iframe');
-	      WVJBIframe.style.display = 'none';
-	      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-	      document.documentElement.appendChild(WVJBIframe);
-	      setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
-	    },
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
+    	},
 	    shareExport() {
 	    	const self = this;
 	    	const classUuid = this.$route.query.id;
 	    	const data ={
 	    		title: this.form.className,
 	    		id: classUuid ,
-	    		adress: 'http://api.robinjf.com/class/share?uuid='+ classUuid,
+	    		address: 'http://api.robinjf.com/class/share?uuid='+ classUuid,
 	    	}
 	    	let u = navigator.userAgent, app = navigator.appVersion; 
 	      	let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
@@ -73,9 +73,8 @@ export default {
 		            return false
 		        });
 	      	} else if (isAndroid){
-	      		
-	      	} else {
-
+	      		window.android.storeShareInformation(data.title, data.id, datas.address);
+	      		return false 
 	      	}
 
 	    },

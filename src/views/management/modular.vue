@@ -165,8 +165,7 @@ export default {
       }else { 
         alert("只能在 Android 或 ios 打开");
       }   
-    },
-    
+    },    
   }
 }
 </script>
