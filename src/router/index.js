@@ -16,6 +16,7 @@ import letter from '@/views/letter'
 
 import register from '@/views/register'
 import finish from '@/views/finish'
+import greement from '@/views/greement'
 
 Vue.use(Router)
 
@@ -83,5 +84,11 @@ export default new Router({
       name: 'finish',
       component: finish
     },
+    // 开户隐私协议
+    {
+      path: '/greement',
+      name: 'greement',
+      component: greement
+    }
   ]
 })

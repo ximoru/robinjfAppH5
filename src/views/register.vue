@@ -398,7 +398,7 @@ export default {
           alert(data.error_msg)
           this.$router.replace({ name: 'finish' })
         }else{
-          this.text = '请先开通会员'
+          this.text = 'data.error_msg'
           this.show = true
           this.loaing = false
           this.isDisbt = false 
@@ -438,10 +438,10 @@ export default {
       }      
     },
     goNext() { 
-      let cn = /[\u4e00-\u9fa5]/;
-      let na = /^[a-zA-Z]+$/;
-      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
-      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+      // let cn = /[\u4e00-\u9fa5]/;
+      // let na = /^[a-zA-Z]+$/;
+      // let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      // let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -477,26 +477,26 @@ export default {
         address &&
         zipCode 
       ) {
-        if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
-           this.text ="请输入正确的中文姓或者中文名"
-           this.show = true
-           return false;
-        }
-        if (!na.test(enFirtName) || !na.test(enLastName)) {
-          this.text = '请输入正确的英文姓或者英文名'
-          this.show = true
-          return false;
-        }
-        if (!reg.test(idNo)) {
-          this.text ='请输入正确的身份证号'
-          this.show = true
-          return false;
-        }
-        if (!em.test(email)) {
-          this.text = '请输入正确的邮箱地址'
-          this.show = true
-          return false;
-        }
+        // if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
+        //    this.text ="请输入正确的中文姓或者中文名"
+        //    this.show = true
+        //    return false;
+        // }
+        // if (!na.test(enFirtName) || !na.test(enLastName)) {
+        //   this.text = '请输入正确的英文姓或者英文名'
+        //   this.show = true
+        //   return false;
+        // }
+        // if (!reg.test(idNo)) {
+        //   this.text ='请输入正确的身份证号'
+        //   this.show = true
+        //   return false;
+        // }
+        // if (!em.test(email)) {
+        //   this.text = '请输入正确的邮箱地址'
+        //   this.show = true
+        //   return false;
+        // }
         if (gender === '' || gender === void 0 ) {
           this.text = '请检查填写内容是否正确'
           this.show = true

@@ -51,6 +51,13 @@
           开户
         </router-link>
       </li>
+      <li>
+        <router-link
+          :to="{ name: 'greement' }"
+        >
+          隐私协议
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
