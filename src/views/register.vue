@@ -385,6 +385,7 @@ export default {
       const url = '/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
+      conlose.log(formdata.sessionId)
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       let axiosConfig = {
         validateStatus: function (status) {

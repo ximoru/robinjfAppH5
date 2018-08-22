@@ -54,11 +54,17 @@
 <script>
 export default {
   name: 'greement',
+  created() {
+    // 获取链接参数phone,然后存进内存中
+    this.phone = this.$route.query.phone;
+  },
   methods: {
     gotoOpenAccount () {
-      this.$router.replace({
-        name: 'register'
+      this.$router.push({
+        name: 'register',
+        query: {phone:this.phone}
       })
+      this.changeColor ();  
     },
     setupWebViewJavascriptBridge(callback) {
       if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
@@ -73,7 +79,6 @@ export default {
     returnBack () {
       const self = this;
       let u = navigator.userAgent, app = navigator.appVersion; 
-      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
       if (isiOS) {
         self.setupWebViewJavascriptBridge((bridge) => {
@@ -81,7 +86,20 @@ export default {
             });
             return false
         });
-      }else if(isAndroid) {}
+      }
+    },
+    // tabbar修改颜色
+    changeColor () {
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS) {
+        self.setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('ifmTitle', (response) => {
+            });
+            return false
+        });
+      }
     }
   }
 }
@@ -118,7 +136,7 @@ export default {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 4px;
     display: table;
     width: 100%;
     table-layout: fixed;
@@ -129,9 +147,9 @@ export default {
     color: #fff;
     line-height: 40px;
     display:table-cell;
-    background-color: #1e67d9;
+    background-color: #BBA570;
   }
   .greement .button a:first-child{
-    background-color:  #5f647b;
+    background-color:  #8f95b5;
   }
 </style>

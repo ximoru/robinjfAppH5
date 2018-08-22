@@ -27,7 +27,7 @@ Vue.component(zCheckbox.name, zCheckbox)
 Vue.component(flex.name, flex)
 Vue.component(flexItem.name, flexItem)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false 
 
 /* eslint-disable no-new */
 new Vue({
