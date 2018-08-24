@@ -494,26 +494,26 @@ export default {
         address &&
         zipCode 
       ) {
-        // if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
-        //    this.text ="请输入正确的中文姓或者中文名"
-        //    this.show = true
-        //    return false;
-        // }
-        // if (!na.test(enFirtName) || !na.test(enLastName)) {
-        //   this.text = '请输入正确的英文姓或者英文名'
-        //   this.show = true
-        //   return false;
-        // }
-        // if (!reg.test(idNo)) {
-        //   this.text ='请输入正确的身份证号'
-        //   this.show = true
-        //   return false;
-        // }
-        // if (!em.test(email)) {
-        //   this.text = '请输入正确的邮箱地址'
-        //   this.show = true
-        //   return false;
-        // }
+        if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
+           this.text ="请输入正确的中文姓或者中文名"
+           this.show = true
+           return false;
+        }
+        if (!na.test(enFirtName) || !na.test(enLastName)) {
+          this.text = '请输入正确的英文姓或者英文名'
+          this.show = true
+          return false;
+        }
+        if (!reg.test(idNo)) {
+          this.text ='请输入正确的身份证号'
+          this.show = true
+          return false;
+        }
+        if (!em.test(email)) {
+          this.text = '请输入正确的邮箱地址'
+          this.show = true
+          return false;
+        }
         if (gender === '' || gender === void 0 ) {
           this.text = '请检查填写内容是否正确'
           this.show = true
