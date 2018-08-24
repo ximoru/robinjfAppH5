@@ -61,6 +61,7 @@ export default {
 	    	const data ={
 	    		title: this.form.className,
 	    		id: classUuid ,
+	    		adress: 'http://api.robinjf.com/class/share?uuid='+ classUuid,
 	    		address: 'http://api.robinjf.com/class/share?uuid='+ classUuid,
 	    	}
 	    	let u = navigator.userAgent, app = navigator.appVersion; 
@@ -73,7 +74,7 @@ export default {
 		            return false
 		        });
 	      	} else if (isAndroid){
-	      		window.android.storeShareInformation(data.title, data.id, datas.address);
+	      		window.android.storeShareInformation(data.title, data.id, data.address);
 	      		return false 
 	      	}
 

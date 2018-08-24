@@ -131,11 +131,11 @@
       </z-checkbox>
     </div>
     <div class="bt" v-show="commit">
-      <button v-if="loaing" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
+      <button v-if="loading" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
       <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button> 
     </div>
     <div class="bt" v-show="goMembers">
-        <button @click="goPayMembers()">去开通会员</button>
+        <button @click="goPayMembers()">去激活会员</button>
     </div>
     <div class="bt return">
       <button @click="reback()">上一步</button>
@@ -149,7 +149,7 @@
           <div class="dialogbox-body-main" v-if="show" >
             <div class="prompt">提示</div>
             <p class="title" v-html="text">{{text}}</p>
-            <button class="button-deflaut" @click="close()">关闭</button>
+            <button  id='gotoMembers' class="button-deflaut" @click="close()">知道了</button>
           </div>
         </transition>
       </div>
@@ -171,7 +171,7 @@ export default {
     return {
       isSite: true,
       isEmail: true,
-      loaing: false,
+      loading: false,
       isDisbt: false,
       isDisabled: false,
       isImg: false,
@@ -374,18 +374,38 @@ export default {
       }
       return list
     },
-   
+  },
+  mounted() {
+    this.openAccountCheck ()
   },
   methods: {
+    // 检验开户接口
+    openAccountCheck (){
+      const url = 'user/mt4AccountCheck'  
+      const phone = this.form.phone
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+      axios.post(url, {phone: phone}).catch(e => {
+        let data = e.response.data
+        if(data.error_code == 2){
+          this.show = true
+          this.text = data.error_msg
+        }if(data.error_code == 3){
+          this.show = true
+          this.text = data.error_msg 
+        }else{
+          this.show = true
+          this.text = data.error_msg
+        }
+      })
+    },
     save() {
-      this.loaing = true
+      this.loading = true
       this.isImg = true
       this.isDisbt = true 
       this.isDisabled = true
       const url = '/User/openMt4Account'
       const formdata = this.form
       formdata.sessionId = this.$route.query.sessionId
-      conlose.log(formdata.sessionId)
       axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
       let axiosConfig = {
         validateStatus: function (status) {
@@ -396,14 +416,10 @@ export default {
         let data = response.data
         if (data.is_succ == true) {
           this.loading = false
-          alert(data.error_msg)
           this.$router.replace({ name: 'finish' })
         }else{
-          this.text = 'data.error_msg'
+          this.text = data.error_msg
           this.show = true
-          this.loaing = false
-          this.isDisbt = false 
-          this.isDisabled = false
           this.commit = false
           this.goMembers = true
         }
@@ -439,10 +455,10 @@ export default {
       }      
     },
     goNext() { 
-      // let cn = /[\u4e00-\u9fa5]/;
-      // let na = /^[a-zA-Z]+$/;
-      // let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
-      // let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+      let cn = /[\u4e00-\u9fa5]/;
+      let na = /^[a-zA-Z]+$/;
+      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
         cnLastName,
@@ -478,26 +494,26 @@ export default {
         address &&
         zipCode 
       ) {
-        // if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
-        //    this.text ="请输入正确的中文姓或者中文名"
-        //    this.show = true
-        //    return false;
-        // }
-        // if (!na.test(enFirtName) || !na.test(enLastName)) {
-        //   this.text = '请输入正确的英文姓或者英文名'
-        //   this.show = true
-        //   return false;
-        // }
-        // if (!reg.test(idNo)) {
-        //   this.text ='请输入正确的身份证号'
-        //   this.show = true
-        //   return false;
-        // }
-        // if (!em.test(email)) {
-        //   this.text = '请输入正确的邮箱地址'
-        //   this.show = true
-        //   return false;
-        // }
+        if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
+           this.text ="请输入正确的中文姓或者中文名"
+           this.show = true
+           return false;
+        }
+        if (!na.test(enFirtName) || !na.test(enLastName)) {
+          this.text = '请输入正确的英文姓或者英文名'
+          this.show = true
+          return false;
+        }
+        if (!reg.test(idNo)) {
+          this.text ='请输入正确的身份证号'
+          this.show = true
+          return false;
+        }
+        if (!em.test(email)) {
+          this.text = '请输入正确的邮箱地址'
+          this.show = true
+          return false;
+        }
         if (gender === '' || gender === void 0 ) {
           this.text = '请检查填写内容是否正确'
           this.show = true
