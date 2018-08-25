@@ -54,12 +54,18 @@
 <script>
 export default {
   name: 'greement',
+  mounted() {
+    this.init()
+  },
   methods: {
+    init(){
+      var body = document.getElementsByTagName('body')[0]
+      document.title = '隐私协议'
+    },
     gotoOpenAccount () {
       this.$router.push({
         name: 'cooperation',
-      })
-      this.changeColor ();  
+      })  
     },
     setupWebViewJavascriptBridge(callback) {
       if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
@@ -83,19 +89,7 @@ export default {
         });
       }
     },
-    // tabbar修改颜色
-    changeColor () {
-      const self = this;
-      let u = navigator.userAgent, app = navigator.appVersion; 
-      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-      if (isiOS) {
-        self.setupWebViewJavascriptBridge((bridge) => {
-            bridge.callHandler('ifmTitle', (response) => {
-            });
-            return false
-        });
-      }
-    }
+    
   }
 }
 </script>

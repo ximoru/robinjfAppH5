@@ -1,7 +1,7 @@
 <template>
 	<div class="cooperation">
     <ul>
-      <li >
+      <li @click="gotoOpenAccount()">
         <img src="static/logo-blue.png" alt="">
         <dl>
           <dt>IFM Trade</dt>
@@ -9,9 +9,6 @@
         </dl>
       </li>
     </ul>
-    <div class="button">
-      <button  @click="gotoOpenAccount()">去开户</button>
-    </div>
   </div>
 </template>
 <script>
@@ -21,13 +18,44 @@
       // 获取链接参数phone,然后存进内存中
       this.phone = this.$route.query.phone;
     },
+    mounted() {
+      this.init()
+    },
     methods: {
+      init(){
+        var body = document.getElementsByTagName('body')[0]
+        document.title = '选择经济商'
+      },
       gotoOpenAccount () {
         this.$router.push({
           name: 'register',
           query: {phone:this.phone}
         })
+        this.changeColor ()
       },
+      setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
+      },
+      // tabbar修改颜色
+      changeColor () {
+        const self = this;
+        let u = navigator.userAgent, app = navigator.appVersion; 
+        let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if (isiOS) {
+          self.setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('ifmTitle', (response) => {
+              });
+              return false
+          });
+        }
+      }
     }
   }
 </script>
@@ -66,17 +94,5 @@
     overflow:hidden;
     line-height:1.2;
   }
-  .button{
-    height:50px;
-  }
-  .button button{ 
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 4px;
-    width: 90%;
-    border-spacing:15px  0; 
-    text-align: center;
-    margin:auto;
- }
+
 </style>
