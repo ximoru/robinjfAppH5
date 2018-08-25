@@ -58,6 +58,13 @@
           隐私协议
         </router-link>
       </li>
+      <li>
+        <router-link
+          :to="{ name: 'cooperation' }"
+        >
+          选择经济商
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -82,6 +89,7 @@ h1, h2 {
 ul {
   list-style-type: none;
   padding: 20px;
+  text-align: justify;
 }
 li {
   display: inline-block;

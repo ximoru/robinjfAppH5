@@ -54,15 +54,10 @@
 <script>
 export default {
   name: 'greement',
-  created() {
-    // 获取链接参数phone,然后存进内存中
-    this.phone = this.$route.query.phone;
-  },
   methods: {
     gotoOpenAccount () {
       this.$router.push({
-        name: 'register',
-        query: {phone:this.phone}
+        name: 'cooperation',
       })
       this.changeColor ();  
     },

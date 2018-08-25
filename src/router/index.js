@@ -17,6 +17,7 @@ import letter from '@/views/letter'
 import register from '@/views/register'
 import finish from '@/views/finish'
 import greement from '@/views/greement'
+import cooperation from '@/views/cooperation'
 
 Vue.use(Router)
 
@@ -89,6 +90,12 @@ export default new Router({
       path: '/greement',
       name: 'greement',
       component: greement
+    },
+    // 选择经济商
+    {
+      path: '/cooperation',
+      name: 'cooperation',
+      component: cooperation
     }
   ]
 })
