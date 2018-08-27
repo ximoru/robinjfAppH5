@@ -376,7 +376,8 @@ export default {
     },
   },
   mounted() {
-    this.openAccountCheck ()
+    this.openAccountCheck ();
+    this.changeColor()
   },
   methods: {
     // 检验开户接口
@@ -453,6 +454,20 @@ export default {
          // window.android.openMaster(id);
          // return false  
       }      
+    },
+    //
+    // tabbar修改颜色
+    changeColor () {
+      const self = this;
+      let u = navigator.userAgent, app = navigator.appVersion; 
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      if (isiOS) {
+        self.setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('ifmTitle', (response) => {
+            });
+            return false
+        });
+      }
     },
     goNext() { 
       let cn = /[\u4e00-\u9fa5]/;

@@ -8,6 +8,13 @@
           <dd>IFM Trade 是澳洲经验最为丰富的外汇交易商之一，从2012年起为客户提供全球金融市场产品。</dd>
         </dl>
       </li>
+      <li @click="gotoOpenAccount()">
+        <img src="static/trademax-logo.png" alt="">
+        <dl>
+          <dt>TradeMax</dt>
+          <dd>TradeMax是世界领先的在线外汇交易平台，最值得信赖的外汇交易商之一，TradeMax受全球认证的澳洲顶级ASIC监管。。</dd>
+        </dl>
+      </li>
     </ul>
   </div>
 </template>
@@ -19,19 +26,19 @@
       this.phone = this.$route.query.phone;
     },
     mounted() {
-      this.init()
+      // this.init()
+      this.changeTitle ()
     },
     methods: {
-      init(){
-        var body = document.getElementsByTagName('body')[0]
-        document.title = '选择经济商'
-      },
+      // init(){
+      //   var body = document.getElementsByTagName('body')[0]
+      //   document.title = '选择经济商'
+      // },
       gotoOpenAccount () {
         this.$router.push({
           name: 'register',
           query: {phone:this.phone}
         })
-        this.changeColor ()
       },
       setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
@@ -43,19 +50,31 @@
         document.documentElement.appendChild(WVJBIframe);
         setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
       },
-      // tabbar修改颜色
-      changeColor () {
+      returnBack () {
         const self = this;
         let u = navigator.userAgent, app = navigator.appVersion; 
         let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
         if (isiOS) {
           self.setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('ifmTitle', (response) => {
+              bridge.callHandler('pop', (response) => {
               });
               return false
-          });
+          }); 
         }
-      }
+      },
+      changeTitle () {
+        const self = this;
+        let u = navigator.userAgent, app = navigator.appVersion; 
+        let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if (isiOS) {
+          self.setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('changeTitle',{title: '选择经纪商'}, (response) => {
+              });
+              return false
+          }); 
+        }
+      },
+      
     }
   }
 </script>

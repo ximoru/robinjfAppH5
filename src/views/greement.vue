@@ -54,6 +54,10 @@
 <script>
 export default {
   name: 'greement',
+  created() {
+    // 获取链接参数phone,然后存进内存中
+    this.phone = this.$route.query.phone;
+  },
   mounted() {
     this.init()
   },
@@ -65,6 +69,7 @@ export default {
     gotoOpenAccount () {
       this.$router.push({
         name: 'cooperation',
+        query: {phone:this.phone}
       })  
     },
     setupWebViewJavascriptBridge(callback) {
