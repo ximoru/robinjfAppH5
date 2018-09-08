@@ -11,7 +11,7 @@
       </li>
       <li>
         <router-link
-          :to="{ name: 'managementModular', query: { id: '018BBB73665748D3ACC32B19A08C248C' } }"
+          :to="{ name: 'managementModular', query: { id: 7 } }"
         >
           资管详情
         </router-link>

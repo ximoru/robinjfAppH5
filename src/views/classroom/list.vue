@@ -4,6 +4,7 @@
       <div class="classroom-header-mian flex">
         <router-link v-for="(item, index) in items"  :key="item.uuid" :to="{ name: 'articleList', query: { id: item.uuid } }" class="classroom-header-item  flex-cols">
             <img :src="item.src" alt="">
+            {{item}}
             <p>{{item.typename}}</p>
         </router-link>
       </div>

@@ -2,18 +2,18 @@
 <div class="warp">
   <section class="management-modular">
     <div class="management-modular-icon">
-      <img :src="form.avatar || 'http://ofpd5oujq.bkt.clouddn.com/higher_default_header.png'" alt="avatar">
+      <img :src="form.portrait || 'http://ofpd5oujq.bkt.clouddn.com/higher_default_header.png'" alt="avatar">
     </div>
     <div class="management-modular-title">
-      <p>{{ form.groupName }}</p>
+      <p>{{ form.name }}</p>
     </div>
     <div class="management-modular-tags clear">
       <div class="management-modular-tag_name left">投资风格：&emsp;</div>
       <div class="management-modular-tag-warp">
         <div class="management-modular-tag left"
-          v-for="tag in tagList"
-          :key="tag"
-        >{{ tag }}</div>
+          v-for="tags in tagList"
+          :key="tags"
+        >{{ tags }}</div>
       </div>
     </div>
   </section>
@@ -35,20 +35,20 @@
      <div class="management-card-content-main management-card-content-pic">
        <ul>
          <li @click="goPage(pics3.uuid)" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
-           <a ><img :src="pics3.bunmtAvatarpath" alt="pic3"></a>
-           <p>{{pics3.bunmtUsername}}</p>
+           <a ><img :src="pics3.portrait" alt="pic3"></a>
+           <p>{{pics3.name}}</p>
          </li>
        </ul>
      </div>
    </div>
   </section>
-  <section class="management-card">
+   <section class="management-card">
     <div class="management-card-title border-bottom">大咖相册</div>
     <div class="management-card-content">
       <div class="management-card-content-main">
         <ul>
           <li class="" v-for="pics in picList" :key="pics.id">
-            <a :href="pics.pic"><img :src="pics.pic" alt="" >{{pics.name}}</a>
+            <a :href="pics.path"><img :src="pics.path" alt="" >{{pics.name}}</a>
           </li>
         </ul>
       </div>
@@ -60,8 +60,8 @@
       <div class="management-card-content-main">
         <dl class="clear">
           <dt v-for="pics2 in pic2List" :key="pics2.id">
-            <a :href="pics2.pic">
-                <img :src="pics2.pic" alt="" >{{pics2.name}}
+            <a :href="pics2.path">
+                <img :src="pics2.path" alt="" >{{pics2.name}}
             </a>
           </dt>
         </dl>
@@ -92,8 +92,8 @@ export default {
   },
   computed: {
     tagList() {
-      const tag = this.form.tag
-      if (tag) return tag.split(',')
+      const tags = this.form.tags
+      if (tags) return tags.split(',')
       return []
     },
   },
@@ -120,19 +120,22 @@ export default {
       this.num = index;
     },
     getDetail() {
-      const url = '/Group/getGroupByUuid'
+      const u = 'http://apiv2.robinjf.com/api/management/detail'
       const params = {
-        groupUuid: this.$route.query.id,
+        id: this.$route.query.id,
       }
-      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      axios.post(url, {}, { params }).then(response => {
-        this.picList = response.data.data.pic_result.pics_1;
-        this.pic2List = response.data.data.pic_result.pics_2;
-        this.pic3List = response.data.data.masterList;
-        this.form = response.data.data;
-        this.arr.push(response.data.data.concept); //投资理念
-        this.arr.push(response.data.data.comment) //罗宾点评
-        this.arr.push(response.data.data.memo) //大咖介绍
+      axios.get('http://apiv2.robinjf.com/api/management/detail', { params }).then(response => {
+        if(response.data.code == 200){
+          this.form = response.data.data;
+          this.picList = response.data.data.photos;
+          this.pic2List = response.data.data.profit;
+          this.pic3List = response.data.data.signals;
+          this.arr.push(response.data.data.concept); //投资理念
+          this.arr.push(response.data.data.comment) //罗宾点评
+          this.arr.push(response.data.data.introduction) //大咖介绍 
+        }else{
+          alert(response.data.msg)
+        }
       })
     },
     setupWebViewJavascriptBridge(callback) {

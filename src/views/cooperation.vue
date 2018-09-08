@@ -26,14 +26,9 @@
       this.phone = this.$route.query.phone;
     },
     mounted() {
-      // this.init()
       this.changeTitle ()
     },
     methods: {
-      // init(){
-      //   var body = document.getElementsByTagName('body')[0]
-      //   document.title = '选择经济商'
-      // },
       gotoOpenAccount () {
         this.$router.push({
           name: 'register',
@@ -62,6 +57,7 @@
           }); 
         }
       },
+
       changeTitle () {
         const self = this;
         let u = navigator.userAgent, app = navigator.appVersion; 
