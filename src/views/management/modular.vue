@@ -120,7 +120,6 @@ export default {
       this.num = index;
     },
     getDetail() {
-      const u = 'http://apiv2.robinjf.com/api/management/detail'
       const params = {
         id: this.$route.query.id,
       }
