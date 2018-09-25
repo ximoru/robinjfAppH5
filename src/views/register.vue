@@ -160,7 +160,7 @@
 </div>
 </template>
 <style type="text/css">
-  @import '../assets/style/dialogbox.css';
+  @import '../assets/css/dialogbox.css'
 </style>
 <script>
 import axios from 'axios'

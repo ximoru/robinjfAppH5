@@ -34,7 +34,7 @@
    <div class="management-card-content">
      <div class="management-card-content-main management-card-content-pic">
        <ul>
-         <li @click="goPage(pics3.uuid)" class="" v-for="pics3 in pic3List" :key="pics3.uuid">
+         <li @click="goPage(pics3.id)" class="" v-for="pics3 in pic3List" :key="pics3.id">
            <a ><img :src="pics3.portrait" alt="pic3"></a>
            <p>{{pics3.name}}</p>
          </li>
@@ -93,23 +93,23 @@ export default {
   computed: {
     tagList() {
       const tags = this.form.tags
-      if (tags) return tags.split(',')
+      if (tags) return tags.split(',');
       return []
     },
   },
   mounted() {
-    var body = document.getElementsByTagName('body')[0]
-    document.title = 'Robin Fin'
-    var iframe = document.createElement("iframe")
+    var body = document.getElementsByTagName('body')[0];
+    document.title = 'Robin Fin';
+    var iframe = document.createElement("iframe");
     iframe.style.display="no"
     var d = function() {
       setTimeout(function() {
-        iframe.removeEventListener('load', d)
+        iframe.removeEventListener('load', d);
         document.body.removeChild(iframe)
       }, 0)
     }
-    iframe.addEventListener('load', d)
-    document.body.appendChild(iframe)
+    iframe.addEventListener('load', d);
+    document.body.appendChild(iframe);
     this.getDetail()
   },
   methods: {
@@ -130,8 +130,8 @@ export default {
           this.pic2List = response.data.data.profit;
           this.pic3List = response.data.data.signals;
           this.arr.push(response.data.data.concept); //投资理念
-          this.arr.push(response.data.data.comment) //罗宾点评
-          this.arr.push(response.data.data.introduction) //大咖介绍 
+          this.arr.push(response.data.data.comment);//罗宾点评
+          this.arr.push(response.data.data.introduction) //大咖介绍
         }else{
           alert(response.data.msg)
         }
@@ -147,11 +147,11 @@ export default {
       document.documentElement.appendChild(WVJBIframe);
       setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
     },
-    /*跳转到信号源页面*/  
-    goPage(id) { 
+    /*跳转到信号源页面*/
+    goPage(id) {
       const self = this;
-      let u = navigator.userAgent, app = navigator.appVersion; 
-      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+      let u = navigator.userAgent, app = navigator.appVersion;
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
       if (isiOS) {
         //ios app 设备才执行
@@ -163,11 +163,11 @@ export default {
         });
       }else if(isAndroid) {
          window.android.openMaster(id);
-         return false  
-      }else { 
+         return false
+      }else {
         alert("只能在 Android 或 ios 打开");
-      }   
-    },    
+      }
+    },
   }
 }
 </script>
@@ -221,36 +221,36 @@ export default {
         padding:
           left: 10px
         background-image: url(../../assets/ff.png)
-.management-content 
+.management-content
   .management-content-tab
     ul
       margin-bottom: 2px
       background-color: #fff
       font-size: 0
       text-align: center
-      .current 
+      .current
         color: #caa14e
       .current::before
         content: ''
         width: 50%
-        height: 3px;
+        height: 3px
         background-color: #caa14e
         position: absolute
         bottom: -2px
         left: 0
         right: 0
-        text-align: left;
+        text-align: left
         margin: auto
         border-radius: 20px
       li
         position: relative
-        font-size: 16px;
+        font-size: 16px
         line-height: 22px
         width: 33.3%
         display: inline-block
         vertical-align: top
         padding: 10px 0
-        color:Rgba(51 51 51)
+        color: Rgba(51 51 51 1)
   .management-tabMain
     .management-card
       padding: 0 20px
@@ -274,12 +274,12 @@ export default {
         height: 70px
         white-space: nowrap
         font-size: 0
-        display: -webkit-box;
+        display: -webkit-box
         overflow-x: auto
         -webkit-overflow-scrolling: touch
         /*隐藏掉滚动条*/
         ul::-webkit-scrollbar
-          display: none;
+          display: none
         li
           display: inline-block
           vertical-align: top
@@ -289,7 +289,7 @@ export default {
           margin-right: 10px
           background-color: #ccc
           border-radius: 6px
-          left: none
+          left: 0
           a
             width: 100%
             height: 70px
@@ -302,7 +302,7 @@ export default {
       dl
         white-space: nowrap
         font-size: 0
-        display: -webkit-box;
+        display: -webkit-box
         overflow-x: auto
         -webkit-overflow-scrolling: touch
         dt
@@ -314,7 +314,7 @@ export default {
           display: inline-block
           vertical-align: top
           font-size: 0
-          a 
+          a
             width: 100%
             height: 70px
             display: block
@@ -343,9 +343,14 @@ export default {
             font-size: 16px
             white-space: nowrap
           a
-            width: 50px
-            height: 50px
-            border-radius: 50%
+
             display: block
             margin: auto
+            width: 50px
+            height: 50px
+            img
+              width: 50px
+              height: 50px
+              border-radius: 50%
+              margin: auto
 </style>

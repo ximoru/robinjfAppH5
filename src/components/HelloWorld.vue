@@ -11,7 +11,7 @@
       </li>
       <li>
         <router-link
-          :to="{ name: 'managementModular', query: { id: 7 } }"
+          :to="{ name: 'managementModular', query: { id: this.$route.query.id } }"
         >
           资管详情
         </router-link>
@@ -65,6 +65,13 @@
           选择经济商
         </router-link>
       </li>
+      <li>
+        <router-link
+          :to="{ name: 'bankList' }"
+        >
+          银行卡列表
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -79,8 +86,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
   font-weight: normal;

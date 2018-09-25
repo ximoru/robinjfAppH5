@@ -8,12 +8,14 @@
           <dd>IFM Trade 是澳洲经验最为丰富的外汇交易商之一，从2012年起为客户提供全球金融市场产品。</dd>
         </dl>
       </li>
-      <li @click="gotoOpenAccount()">
-        <img src="static/trademax-logo.png" alt="">
-        <dl>
-          <dt>TradeMax</dt>
-          <dd>TradeMax是世界领先的在线外汇交易平台，最值得信赖的外汇交易商之一，TradeMax受全球认证的澳洲顶级ASIC监管。。</dd>
-        </dl>
+      <li>
+        <a href="http://h5.robin.laralab.org/html/register.html">
+          <img src="static/trademax-logo.png" alt="">
+          <dl>
+            <dt>TradeMax</dt>
+            <dd>TradeMax是世界领先的在线外汇交易平台，最值得信赖的外汇交易商之一，TradeMax受全球认证的澳洲顶级ASIC监管。。</dd>
+          </dl>
+        </a>
       </li>
     </ul>
   </div>

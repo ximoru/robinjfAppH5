@@ -18,6 +18,8 @@ import register from '@/views/register'
 import finish from '@/views/finish'
 import greement from '@/views/greement'
 import cooperation from '@/views/cooperation'
+import bankList from '@/views/bank/bankList'
+
 
 Vue.use(Router)
 
@@ -96,6 +98,12 @@ export default new Router({
       path: '/cooperation',
       name: 'cooperation',
       component: cooperation
+    },
+    // 支持银行列表
+    {
+      path: '/bank/bankList',
+      name: 'bankList',
+      component: bankList
     }
   ]
 })
