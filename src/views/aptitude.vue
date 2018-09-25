@@ -1,28 +1,25 @@
 <template>
   <div class="z-zzz">
     <h1>优质经纪商保驾护航</h1>
+    <div>
+      <b>TradeMax</b>和<b>Robin Fin</b>签约合作，为<b>ROBIN FIN</b> 所有客户提供优质服务。
+    </div>
+    <div>
+      <b>TradeMax</b>为各类型交易者提供一个超越地理局限的全球性交易平台，由华尔街顶尖基金提供多方式针对流动性报价服务。除此之外，美国的IS Risk作为TradeMax合作风控团队，为各种交易保驾护航。
+    </div>
+    <h2>1、安全严格的资金管理</h2>
     <p>
-      &emsp;&emsp;<b>IFM Trade</b>是目前中国<span>唯一</span>一家可溯源账户信息的经纪商，<b>Robin Fin</b>已与IFM Trade达成战略合作协议，IFM Trade有以下机制： 
+      根据澳大利亚证券和投资委员会（ASIC）的要求，TradeMax通过澳大利亚国民银行银行（NAB）严格执行客户资金隔离，并且根据不同客户的需求，使用包括澳大利亚国民银行在内的澳大利亚金融机构为客户提供资金托管服务。
     </p>
-    <img src="../assets/pic_cooperation.png" alt="pic_cooperation.png">
-    <h2>1、资金完全隔离托管</h2>
-    <p>&emsp;&emsp;对客户资金实行<b>完全隔离托管</b>，存放在有着“澳洲央行”之称的澳洲第一大商业银行澳大利亚联邦银行（CBA）的隔离账户中，与公司自有资金分离管理。 
-CBA始创于1911年，原为澳大利亚国家中央银行，百年来一直关注于金融服务，凭借多年来良好的经营状况，分别获得惠誉国际、穆迪投资及标普国家的AA、Aa3及AA-信贷评级，是世界银行之中最稳健的银行之一。 </p>
-    <h2>2、严格的金融监管</h2>
-    <p>&emsp;&emsp;2012年获得澳大利亚证券和投资委员会（ASIC）的授权并受其全牌照监管，<b>金融服务执照AFSL编号：426359</b>。 </p>
-    <img src="../assets/1.png" alt="pic_intelligence.png">
-    <img src="../assets/2.png" alt="pic_intelligence.png">
-    <h2>3、客户权益保护</h2>
-    <p>&emsp;&emsp;IFM Trade的客户均享受金融督察署（FOS）的免费金融服务，充分保障了客户在交易过程中的合法权益。</p>
-    <h2>4、专业责任强制保险</h2>
-    <p>&emsp;&emsp;IFM Trade遵循ASIC规定，为客户办理专业责任强制保险（PI Insurance），该保险由LIoyd＇s of London劳合社提供。</p>
-    <h2>5、极具竞争力的交易成本</h2>
-    <p>
-      &emsp;&emsp;标准账户实测点差EURUSD1.6-1.8<br>
-      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;XAUUSD2.8-3.5<br>
-      &emsp;&emsp;Pro账户实测点差EURUSD0-0.2<br>
-      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;XAUUSD0.8-1.0 
-    </p>
+    <h2>2、强大的监管</h2>
+    <p><b>TradeMax</b>持有澳大利亚证券和投资委员会（ASIC）颁发和监管的澳大利亚金融服务执照（AFSL:416436）</p>
+    <img src="../assets/two.jpg" alt="pic_intelligence.png">
+    <img src="../assets/two1.jpg" alt="pic_intelligence.png">
+    <h2>3、专业责任强制保险</h2>
+    <p><b>TradeMax</b>拥有专业赔偿PI保险，保额高达1000万澳币，具备实力满足相关的严格偿付能力要求</p>
+    <img src="../assets/three.jpg" alt="pic_intelligence.png">
+    <h2>4、交易全程无忧</h2>
+    <p><b>TradeMax</b>为客户提供可靠的交易基础设施，极低的交易成本，快速的订单执行以及卓越的客户支持。</p>
   </div>
 </template>
 
@@ -31,3 +28,9 @@ export default {
   name: 'aptitude',
 }
 </script>
+<style scoped>
+  p{
+    text-indent: 2em;
+    text-align: justify;
+  }
+</style>

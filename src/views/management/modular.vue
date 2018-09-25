@@ -87,7 +87,9 @@ export default {
       pic3List: [],
       tabs: ["投资理念", "罗宾点评" ,"大咖介绍"],
       num: 0,
-      cur: true
+      cur: true,
+      signalsId: ''
+
     }
   },
   computed: {
@@ -148,8 +150,10 @@ export default {
       setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0);
     },
     /*跳转到信号源页面*/
-    goPage(id) {
+
+    goPage(signalsId) {
       const self = this;
+      let id = signalsId.toString();
       let u = navigator.userAgent, app = navigator.appVersion;
       let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);

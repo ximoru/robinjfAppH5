@@ -31,7 +31,7 @@
         </bb>
       </flex-item>
     </flex>
-  
+
     <bb label="身份证号" :width="86">
       <input type="text" style="width: 100%" placeholder="与身份证同" maxlength="19" v-model="form.idNo" >
     </bb>
@@ -132,7 +132,7 @@
     </div>
     <div class="bt" v-show="commit">
       <button v-if="loading" v-bind:class="{loImg:isImg}"><img src="../assets/loading.gif" alt="">提交中，请稍后</button>
-      <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button> 
+      <button @click="save()" v-else :disabled="isDisabled" v-bind:class="{disbt:isDisbt}">确认并提交</button>
     </div>
     <div class="bt" v-show="goMembers">
         <button @click="goPayMembers()">去激活会员</button>
@@ -142,7 +142,7 @@
     </div>
   </div>
   <!-- 提示弹窗 -->
-  <div class="dialogbox" v-show='show'> 
+  <div class="dialogbox" v-show='show'>
     <div class="dialogbox-wrap">
       <div class="dialogbox-body">
         <transition name="slideup">
@@ -376,57 +376,58 @@ export default {
     },
   },
   mounted() {
-    this.openAccountCheck ();
+    // this.openAccountCheck ();
     this.changeColor()
   },
   methods: {
     // 检验开户接口
-    openAccountCheck (){
-      const url = 'user/mt4AccountCheck'  
-      const phone = this.form.phone
-      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      axios.post(url, {phone: phone}).catch(e => {
-        let data = e.response.data
-        if(data.error_code == 2){
-          this.show = true
-          this.text = data.error_msg
-        }if(data.error_code == 3){
-          this.show = true
-          this.text = data.error_msg 
-        }else{
-          this.show = true
-          this.text = data.error_msg
-        }
-      })
-    },
+    // openAccountCheck (){
+    //   const url = 'user/mt4AccountCheck'
+    //   const phone = this.form.phone
+    //   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+    //   axios.post(url, {phone: phone}).catch(e => {
+    //     let data = e.response.data
+    //     if(data.error_code == 2){
+    //       this.show = true
+    //       this.text = data.error_msg
+    //     }if(data.error_code == 3){
+    //       this.show = true
+    //       this.text = data.error_msg
+    //     }else{
+    //       this.show = true
+    //       this.text = data.error_msg
+    //     }
+    //   })
+    // },
     save() {
-      this.loading = true
-      this.isImg = true
-      this.isDisbt = true 
-      this.isDisabled = true
-      const url = '/User/openMt4Account'
-      const formdata = this.form
-      formdata.sessionId = this.$route.query.sessionId
-      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      let axiosConfig = {
-        validateStatus: function (status) {
-          return status >= 200 && status <= 300;
-        },
-      };
-      axios.post(url, formdata, axiosConfig).then(response => {
-        let data = response.data
-        if (data.is_succ == true) {
-          this.loading = false
-          this.$router.replace({ name: 'finish' })
-        }else{
-          this.text = data.error_msg
-          this.show = true
-          this.commit = false
-          this.goMembers = true
-        }
-      }).catch(res => {
-        window.alert(res)
-      })
+      this.isImg = true;
+      this.isDisbt = true;
+      this.isDisabled = true;
+      this.show = true;
+      this.text ="开户成功"
+      // const url = '/User/openMt4Account'
+      // const formdata = this.form
+      // formdata.sessionId = this.$route.query.sessionId
+      // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+      // let axiosConfig = {
+      //   validateStatus: function (status) {
+      //     return status >= 200 && status <= 300;
+      //   },
+      // };
+      // axios.post(url, formdata, axiosConfig).then(response => {
+      //   let data = response.data
+      //   if (data.is_succ == true) {
+      //     this.loading = false
+      //     this.$router.replace({ name: 'finish' })
+      //   }else{
+      //     this.text = data.error_msg
+      //     this.show = true
+      //     this.commit = false
+      //     this.goMembers = true
+      //   }
+      // }).catch(res => {
+      //   window.alert(res)
+      // })
     },
     /*跳转到开通会员页面*/
     setupWebViewJavascriptBridge(callback) {
@@ -441,8 +442,8 @@ export default {
     },
     goPayMembers() {
       const self = this;
-      let u = navigator.userAgent, app = navigator.appVersion; 
-      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+      let u = navigator.userAgent, app = navigator.appVersion;
+      let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
       if (isiOS) {
         self.setupWebViewJavascriptBridge((bridge) => {
@@ -451,15 +452,15 @@ export default {
             return false
         });
       }else if(isAndroid) {
-         // window.android.openMaster(id);
-         // return false  
-      }      
+         window.android.openMaster(id);
+         return false
+      }
     },
     //
     // tabbar修改颜色
     changeColor () {
       const self = this;
-      let u = navigator.userAgent, app = navigator.appVersion; 
+      let u = navigator.userAgent, app = navigator.appVersion;
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
       if (isiOS) {
         self.setupWebViewJavascriptBridge((bridge) => {
@@ -469,10 +470,10 @@ export default {
         });
       }
     },
-    goNext() { 
+    goNext() {
       let cn = /[\u4e00-\u9fa5]/;
       let na = /^[a-zA-Z]+$/;
-      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+      let reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
       let em = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       const {
         cnFirtName,
@@ -507,7 +508,7 @@ export default {
         state &&
         city &&
         address &&
-        zipCode 
+        zipCode
       ) {
         if (!cn.test(cnFirtName) || !cn.test(cnLastName)) {
            this.text ="请输入正确的中文姓或者中文名"
@@ -538,7 +539,7 @@ export default {
         }
       } else {
         this.text = '请检查填写内容是否正确'
-        this.show = 1   
+        this.show = 1
       }
     },
     reback() {
@@ -590,7 +591,7 @@ export default {
       color: #1B2B84
   .return
   .bt
-    padding: 10px 20px 10px 20px 
+    padding: 10px 20px 10px 20px
     background-color: #fff
     .loImg
       background-color: #4a7cca

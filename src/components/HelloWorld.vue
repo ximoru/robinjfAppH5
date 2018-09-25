@@ -11,7 +11,7 @@
       </li>
       <li>
         <router-link
-          :to="{ name: 'managementModular', query: { id: this.$route.query.id } }"
+          :to="{ name: 'managementModular', query: { id: 8} }"
         >
           资管详情
         </router-link>
