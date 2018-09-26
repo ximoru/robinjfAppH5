@@ -12,7 +12,7 @@
       根据澳大利亚证券和投资委员会（ASIC）的要求，TradeMax通过澳大利亚国民银行银行（NAB）严格执行客户资金隔离，并且根据不同客户的需求，使用包括澳大利亚国民银行在内的澳大利亚金融机构为客户提供资金托管服务。
     </p>
     <h2>2、强大的监管</h2>
-    <p><b>TradeMax</b>持有澳大利亚证券和投资委员会（ASIC）颁发和监管的澳大利亚金融服务执照（AFSL:416436）</p>
+    <p><b>TradeMax</b>持有澳大利亚证券和投资委员会（ASIC）颁发和监管的澳大利亚金融服务执照（AFSL:436416）</p>
     <img src="../assets/two.jpg" alt="pic_intelligence.png">
     <img src="../assets/two1.jpg" alt="pic_intelligence.png">
     <h2>3、专业责任强制保险</h2>
