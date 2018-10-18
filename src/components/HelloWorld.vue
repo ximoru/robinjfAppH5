@@ -11,7 +11,7 @@
       </li>
       <li>
         <router-link
-          :to="{ name: 'managementModular', query: { id: 8} }"
+          :to="{ name: 'managementModular', query: { id: 9 } }"
         >
           资管详情
         </router-link>
@@ -63,13 +63,6 @@
           :to="{ name: 'cooperation' }"
         >
           选择经济商
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          :to="{ name: 'bankList' }"
-        >
-          银行卡列表
         </router-link>
       </li>
     </ul>

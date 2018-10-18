@@ -1,9 +1,0 @@
-
-.bankList{padding:15px 13px 0;font-size:14px;max-width: 640px;margin:auto;text-align:left;}
-.bankList .text{color:#000;font-size: 16px;font-weight:700;line-height: 40px;}
-.bankList .hint{color:#4A4A4A;padding-bottom: 15px;}
-.bankList .hint .blue{color:#1167de;}
-.bankList .title{color:#000;background-color: #DAE1F3;font-size: 16px;border:1px solid #93C0F4;text-align: center;line-height:30px;}
-.bankList .list{width: 100%;display: block;overflow: hidden;}
-.bankList .list:after{content:"";clear: both;width: 0;height:0;}
-.bankList .list li{width:49.93%;float: left;text-align: center;border:0.1px solid #93C0F4;border-collapse: collapse;line-height: 30px;}

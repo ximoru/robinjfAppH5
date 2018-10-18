@@ -126,6 +126,7 @@ export default {
         id: this.$route.query.id,
       }
       axios.get('http://apiv2.robinjf.com/api/management/detail', { params }).then(response => {
+        console.log(params.id)
         if(response.data.code == 200){
           this.form = response.data.data;
           this.picList = response.data.data.photos;
